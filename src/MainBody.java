@@ -1,51 +1,31 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
-
 public class MainBody extends JTabbedPane implements ActionListener {
 
-  protected PrimaryWindow pw;
+  private JPanel whatsNew = new JPanel();
 
-  protected JPanel whatsNew = new JPanel();
-  protected JPanel browseLibrary = new JPanel();
-  protected JPanel accountInfo = new JPanel();
-  protected JPanel cart = new JPanel();
-  protected JPanel rentalHistory = new JPanel();
-
-  protected JPanel searchAccounts = new JPanel();
-  protected JPanel viewEditAccount = new JPanel();
-  protected JPanel createAccount = new JPanel();
-  protected JPanel searchMovies = new JPanel();
-  protected JPanel viewEditMovie = new JPanel();
-  protected JPanel addNewMovie = new JPanel();
-
-  public MainBody(PrimaryWindow pw) {
+  MainBody(PrimaryWindow pw) {
 
     super();
 
-    this.pw = pw;
+    PrimaryWindow pw1 = pw;
 
     // Constructor displays different tabs inside the main window based upon
     // what category of user has logged into the software
     if (pw.regUser) {
 
       this.addTab("What's New", whatsNew);
+      JPanel browseLibrary = new JPanel();
       this.addTab("Browse Movie Library", browseLibrary);
+      JPanel accountInfo = new JPanel();
       this.addTab("Account Info", accountInfo);
+      JPanel cart = new JPanel();
       this.addTab("Cart", cart);
+      JPanel rentalHistory = new JPanel();
       this.addTab("Rental History", rentalHistory);
 
       //this.setLayout(new BorderLayout());
@@ -53,11 +33,17 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
     } else if (pw.adminUser) {
 
+      JPanel searchAccounts = new JPanel();
       this.addTab("Search User Accounts", searchAccounts);
+      JPanel viewEditAccount = new JPanel();
       this.addTab("View/Edit User Account", viewEditAccount);
+      JPanel createAccount = new JPanel();
       this.addTab("Create New User Account", createAccount);
+      JPanel searchMovies = new JPanel();
       this.addTab("Search Movie Library", searchMovies);
+      JPanel viewEditMovie = new JPanel();
       this.addTab("View/Edit Movie Info", viewEditMovie);
+      JPanel addNewMovie = new JPanel();
       this.addTab("Add Movie to Library", addNewMovie);
     }
 
@@ -70,7 +56,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
   }
 
-  public void makeWhatsNewTab(HashMap<String, Movie> hm) {
+  private void makeWhatsNewTab(HashMap<String, Movie> hm) {
     // GridLayout grid = new GridLayout(1, 2);
     // FlowLayout flow = new FlowLayout();
     // BoxLayout box = new BoxLayout(whatsNew, BoxLayout.Y_AXIS);
