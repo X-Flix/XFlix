@@ -31,9 +31,9 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
   // Text files containing information on usernames/passwords, user accounts,
   // and movies currently in the rental library
-  protected static String userPassFile = "username_password.txt";
-  protected static String userAcctsFile = "user_account_info.txt";
-  protected static String newMovFIle = "new_movies.txt";
+  protected static String userPassFile = "resources/TextDatabaseFiles/username_password.txt";
+  protected static String userAcctsFile = "resources/TextDatabaseFiles/user_account_info.txt";
+  protected static String newMovFIle = "resources/TextDatabaseFiles/new_movies.txt";
   private Scanner readFile;
 
   // HashMaps serving as temporary databases that house info needed by users
@@ -59,7 +59,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     createInfoTables();
 
     String key = "BayWatch";
-    Movie value = newReleases.get("BayWatch");
+    Movie value = newReleases.get(key);
     add(new JLabel(value.moviePoster), BorderLayout.SOUTH);
     repaint();
   }
@@ -95,14 +95,14 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
     try {
 
-      String userPass;
+//      String userPass;
       String keyUser;
       String valuePass;
 
-      while ((userPass = readFile.nextLine()) != null) {
+      while (readFile.hasNextLine()) {
 
         // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(userPass);
+        StringTokenizer st = new StringTokenizer(readFile.nextLine());
 
         while (st.hasMoreTokens()) {
           keyUser = st.nextToken();
@@ -199,8 +199,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       String picFile;
       String plotSum;
 
-      while ((newMovInfo = readFile.nextLine()) != null) {
-
+      while (readFile.hasNextLine()) {
+        newMovInfo = readFile.nextLine();
         // String tokenizer breaks each text line into raw tokens
         StringTokenizer st = new StringTokenizer(newMovInfo, "|");
 
@@ -265,7 +265,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     regUser = false;
 
     // Redraws the login screen back to its original state
-    topPan.logo = new ImageIcon(getClass().getResource("xflix_logo.png"));
+    topPan.logo = new ImageIcon(getClass().getResource("IconPics/xflix_logo.png"));
     topPan.add(new JLabel(topPan.logo));
     topPan.setVisible(true);
     add(topPan, BorderLayout.NORTH);
@@ -283,9 +283,9 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
     if (e.getSource() == login.userLogin) {
       TopPanel.logo = new ImageIcon(
-          getClass().getResource("xflix_logo_small.png"));
+          getClass().getResource("IconPics/xflix_logo_small.png"));
       TopPanel.userIcon = new ImageIcon(
-          getClass().getResource("user_icon_small.png"));
+          getClass().getResource("IconPics/user_icon_small.png"));
     }
 
     if (e.getSource() == login.forgotPass) {

@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
  *
  */
 public class Movie {
+  private static ImageIcon BLANK_PIC = new ImageIcon("resources/LargeMoviePics/blank_pic.png");
 
   protected String title;
   protected String year;
@@ -36,7 +37,11 @@ public class Movie {
     this.tag3 = tag3;
     this.picFileName = picFileName;
     this.synopsis = synopsis;
-    moviePoster = new ImageIcon(picFileName);
+    if (!picFileName.isEmpty()) {
+      moviePoster = new ImageIcon(picFileName);
+    } else {
+      moviePoster = BLANK_PIC;
+    }
   }
 
 }
