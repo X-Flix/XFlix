@@ -1,46 +1,42 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class TopPanel extends JPanel implements ActionListener {
+public class TopPanel extends JPanel {
 
-  protected static ImageIcon logo;
-  protected static ImageIcon userIcon;
+  private static FlowLayout TOPPANEL_FLOW = new FlowLayout();
 
-  protected static JButton logOff = new JButton("Signout");
+  private JLabel logoLabel = new JLabel();
+  private JLabel userLabel = new JLabel();
+  private JButton logOffBtn = new JButton(Xres.LOGOFF_LABEL_TEXT);;
 
-  protected PrimaryWindow pw;
+  TopPanel() {
+    super(TOPPANEL_FLOW);
 
-  protected static FlowLayout flow = new FlowLayout();
+    resetPanel();
 
-  public TopPanel(PrimaryWindow pw) {
-    super(flow);
-
-    this.pw = pw;
-
-    logo = new ImageIcon(getClass().getResource("IconPics/xflix_logo.png"));
-    this.add(new JLabel(logo));
-
-    logOff.setPreferredSize(new Dimension(100, 50));
-    logOff.addActionListener(this);
+    logOffBtn.setPreferredSize(new Dimension(100, 50));
   }
+
+  void resetPanel(){
+    getLogoLabel().setIcon(Xres.XFLIX_LOGO);
+    add(logoLabel);
+  }
+
+  JLabel getLogoLabel() {
+    return logoLabel;
+  }
+
+  JLabel getUserLabel(){ return userLabel; }
+
+  JButton getLogOffBtn(){
+    return logOffBtn;
+  }
+
+  FlowLayout getToppanelFlow() { return TOPPANEL_FLOW; }
 
   public void adjustTopPanel() {
-
-  }
-
-  @Override
-  public void actionPerformed(ActionEvent ae) {
-
-    this.removeAll();
-    this.flow.setAlignment(FlowLayout.CENTER);
-    pw.refreshLogin();
 
   }
 

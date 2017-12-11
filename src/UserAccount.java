@@ -7,18 +7,18 @@
  */
 public class UserAccount {
 
-  public String emailAddr;
-  public String firstName;
-  public String lastName;
-  public String streetAddr;
-  public String city;
-  public String state;
-  public String zipCode;
+  private String emailAddr;
+  String firstName;
+  private String lastName;
+  private String streetAddr;
+  private String city;
+  private String state;
+  private String zipCode;
 
-  public String paymentType;
-  public String accountNumber;
-  public String cardType;
-  public String cardExpireDate;
+  private String paymentType;
+  private String accountNumber;
+  private String cardType;
+  private String cardExpireDate;
 
   // Empty constructor
   public UserAccount() {
@@ -38,7 +38,7 @@ public class UserAccount {
 
   // Constructor for minimum amount of info required from a user or admin when
   // creating a new account using the application
-  public UserAccount(String emailAddr, String firstName, String lastName) {
+  UserAccount(String emailAddr, String firstName, String lastName) {
     this.emailAddr = emailAddr;
     this.firstName = firstName;
     this.lastName = lastName;
