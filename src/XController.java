@@ -10,9 +10,7 @@ class XController {
   XController() {
     // Four statements needed for almost every GUI program
     primary = new PrimaryWindow();
-    primary.topPan.getLogOffBtn().addActionListener(
-        e -> logOff(primary.topPan.getParent(),
-            (FlowLayout) primary.topPan.getLayout()));
+    primary.topPan.getLogOffBtn().addActionListener(e -> logOff());
     primary.getLoginPanel().getUserLoginBtn().addActionListener(e -> logOn());
     primary.getLoginPanel().getForgotPassBtn().addActionListener(e -> forgotPass());
 
@@ -33,12 +31,12 @@ class XController {
     // Makes sure that a user has not left a field blank, and that
     // either field does not contain any whitespace characters
     if (userName.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Please enter a username.",
-          "Missing Credential", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, Xres.MISSING_USER_NAME,
+          Xres.MISSING_USER_NAME_TITLE, JOptionPane.ERROR_MESSAGE);
       return;
     } else if (passWord.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Please enter a password.",
-          "Missing Credential", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, Xres.MISSING_PASSWORD,
+          Xres.MISSING_PASSWORD_TITLE, JOptionPane.ERROR_MESSAGE);
       return;
     } else if (userName.matches(".*\\s+.*") || passWord.matches(".*\\s+.*")) {
       JOptionPane.showMessageDialog(null,
@@ -88,7 +86,7 @@ class XController {
       primary.topPan.add(primary.topPan.getLogoLabel());
       primary.topPan.add(primary.topPan.getUserLabel());
 
-      String welcomeMessage = "Welcome back,\n" + primary.currentUserName + "!";
+      String welcomeMessage = Xres.WELCOME_MESSAGE + primary.currentUserName + "!";
       JTextPane welcomeBox = new JTextPane();
       welcomeBox.setText(welcomeMessage);
       welcomeBox.setEditable(false);
@@ -116,23 +114,17 @@ class XController {
   private void forgotPass(){
 
     int dialogClick = 0;
-    String resetEmail = null;
-
-    resetEmail = JOptionPane
-        .showInputDialog("Please enter your email address on file.");
+    String resetEmail = JOptionPane
+        .showInputDialog(Xres.FORGOT_PASSWORD_DIALOG_PROMPT);
     if (primary.userAndPass.containsKey(resetEmail)) {
       JOptionPane.showMessageDialog(null,
-          "Thank you, an email has been sent to " + resetEmail
-              + "\nwith a temporary password. For security, please "
-              + "\nremember to change it IMMEDIATELY after \nsuccessfully "
-              + "logging in.",
-          "Password Reset Completed", JOptionPane.PLAIN_MESSAGE);
+          Xres.FORGOT_PASSWORD_DIALOG_PROMPT_SUCCESS_1 + resetEmail
+              + Xres.FORGOT_PASSWORD_DIALOG_PROMPT_SUCCESS_2,
+          Xres.FORGOT_PASSWORD_DIALOG_PROMPT_SUCCESS_TITLE, JOptionPane.PLAIN_MESSAGE);
     } else if (!primary.userAndPass.containsKey(resetEmail)) {
       JOptionPane.showMessageDialog(null,
-          "The email entered does not match any of the user accounts in our"
-              + "\nrecords. Please verify the correct address was typed and try"
-              + "\nagain. If you do not have an account, please register for one.",
-          "No Such User Exists", JOptionPane.PLAIN_MESSAGE);
+          Xres.FORGOT_PASSWORD_DIALOG_FAIL,
+          Xres.FORGOT_PASSWORD_DIALOG_FAIL_TITLE, JOptionPane.PLAIN_MESSAGE);
     }
 
     // Message intended for a blank field, nto working UNDER CONSTRUCTION
@@ -143,9 +135,9 @@ class XController {
     }
   }
 
-  private void logOff(Container topPanel, FlowLayout topPanelFlow){
-    topPanel.removeAll();
-    topPanelFlow.setAlignment(FlowLayout.CENTER);
+  private void logOff(){
+    primary.topPan.removeAll();
+    primary.topPan.getToppanelFlow().setAlignment(FlowLayout.CENTER);
     primary.refreshLogin();
   }
 }

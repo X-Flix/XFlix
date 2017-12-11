@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-public class MainBody extends JTabbedPane implements ActionListener {
+public class MainBody extends JTabbedPane {
 
   private JPanel whatsNew = new JPanel();
 
@@ -48,13 +46,13 @@ public class MainBody extends JTabbedPane implements ActionListener {
     }
 
   }
-
+/*
   @Override
   public void actionPerformed(ActionEvent e) {
     // Timer timer = new Timer();
     // TODO Auto-generated method stub
 
-  }
+  }*/
 
   private void makeWhatsNewTab(HashMap<String, Movie> hm) {
     // GridLayout grid = new GridLayout(1, 2);
