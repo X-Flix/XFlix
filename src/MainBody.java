@@ -5,19 +5,20 @@ import java.util.HashMap;
 public class MainBody extends JTabbedPane {
 
   private JPanel whatsNew = new JPanel();
+  private JPanel browseLibrary = new JPanel();
 
   MainBody(PrimaryWindow pw) {
 
     super();
 
-    PrimaryWindow pw1 = pw;
-
     // Constructor displays different tabs inside the main window based upon
     // what category of user has logged into the software
-    if (pw.regUser) {
+    if (XController.getCurrentUserType().equals(Xres.TYPE_USER)) {
+
+      makeWhatsNewTab(pw.newReleases);
+      makeBrowseLibraryTab(pw.newReleases);
 
       this.addTab("What's New", whatsNew);
-      JPanel browseLibrary = new JPanel();
       this.addTab("Browse Movie Library", browseLibrary);
       JPanel accountInfo = new JPanel();
       this.addTab("Account Info", accountInfo);
@@ -27,9 +28,8 @@ public class MainBody extends JTabbedPane {
       this.addTab("Rental History", rentalHistory);
 
       //this.setLayout(new BorderLayout());
-      makeWhatsNewTab(pw.newReleases);
 
-    } else if (pw.adminUser) {
+    } else if (XController.getCurrentUserType().equals(Xres.TYPE_ADMIN)) {
 
       JPanel searchAccounts = new JPanel();
       this.addTab("Search User Accounts", searchAccounts);
@@ -55,6 +55,53 @@ public class MainBody extends JTabbedPane {
   }*/
 
   private void makeWhatsNewTab(HashMap<String, Movie> hm) {
+
+    JScrollPane scrollPane = new JScrollPane(
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+    // whatsNew.setLayout();
+    JPanel rowHolder = new JPanel();
+    rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
+    
+    JLabel picHolder;
+    JPanel movieInfo = new JPanel();
+    movieInfo.setLayout(new BoxLayout(movieInfo, BoxLayout.Y_AXIS));
+    JPanel buttonHolder = new JPanel();
+
+    JButton addToCart = new JButton("Add to Cart");
+    addToCart.setToolTipText("Rent this title today!\nAdd it to your cart.");
+
+    String key = "BayWatch";
+    Movie value = hm.get(key);
+    picHolder = new JLabel(value.moviePoster);
+    picHolder.setPreferredSize(new Dimension(150, 222));
+    browseLibrary.add(picHolder);
+
+    String actors = String.format("%s, %s, %s", value.cast1, value.cast2,
+        value.cast3);
+    String tags = String.format("%s, %s, %s", value.tag1, value.tag2,
+        value.tag3);
+    movieInfo.add(new JLabel("Title: " + value.title));
+    movieInfo.add(new JLabel("Released: " + value.year));
+    movieInfo.add(new JLabel("Genre: " + value.genre));
+    movieInfo.add(new JLabel("Director: " + value.director));
+    movieInfo.add(new JLabel("Cast: " + actors));
+    movieInfo.add(new JLabel("Tags: " + tags));
+    movieInfo.add(new JLabel("<HTML>Summary: " + value.synopsis + "<HTML>"));
+
+    browseLibrary.add(movieInfo);
+    browseLibrary.add(buttonHolder.add(addToCart));
+
+    scrollPane.setVisible(true);
+    browseLibrary.add(scrollPane);
+    browseLibrary.setVisible(true);
+    browseLibrary.repaint();
+    browseLibrary.revalidate();
+
+  }
+
+  private void makeBrowseLibraryTab(HashMap<String, Movie> hm) {
     // GridLayout grid = new GridLayout(1, 2);
     // FlowLayout flow = new FlowLayout();
     // BoxLayout box = new BoxLayout(whatsNew, BoxLayout.Y_AXIS);
@@ -67,7 +114,7 @@ public class MainBody extends JTabbedPane {
     // whatsNew.setLayout();
     JPanel rowHolder = new JPanel();
     rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
-    
+
     JLabel picHolder;
     JPanel movieInfo = new JPanel();
     movieInfo.setLayout(new BoxLayout(movieInfo, BoxLayout.Y_AXIS));

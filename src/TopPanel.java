@@ -18,8 +18,6 @@ public class TopPanel extends JPanel {
     resetPanel();
 
     logOffBtn.setPreferredSize(new Dimension(100, 50));
-//    logoLabel.setMaximumSize(new Dimension(500, 150));
-//    logoLabel.setPreferredSize(new Dimension(500, 150));
   }
 
   void resetPanel(){
@@ -38,9 +36,5 @@ public class TopPanel extends JPanel {
   }
 
   FlowLayout getToppanelFlow() { return TOPPANEL_FLOW; }
-
-  public void adjustTopPanel() {
-
-  }
 
 }

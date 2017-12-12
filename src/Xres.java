@@ -18,7 +18,9 @@ public interface Xres {
   ImageIcon ADMIN_ICON = new ImageIcon(ICONS+"admin_icon_small.png");
   ImageIcon USER_ICON = new ImageIcon(ICONS+"user_icon_small.png");
 
-  // Labels
+  // Status descriptors
+  Integer TYPE_USER = 1;
+  Integer TYPE_ADMIN = 9;
 
 
   // Text Labels
@@ -33,6 +35,7 @@ public interface Xres {
   String USER_LOGIN_BUTTON = "LOGIN";
   String USER_LOGIN_BUTTON_TOOLTIP = "Click her to begin watching!";
   String WELCOME_MESSAGE = "Welcome back,\n";
+  String WELCOME_MESSAGE_TITLE = "Welcome to X-Flix! Entertainment done your way - the right way!";
 
   // Dialog text
   String MISSING_USER_NAME = "Please enter a username.";

@@ -6,8 +6,7 @@
 
 // Imports the AWT and Swing packages needed to implement GUI elements
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -39,7 +38,7 @@ class PrimaryWindow extends JFrame {
 
   PrimaryWindow() {
     // Invokes super constructor & sets the window title
-    super("Welcome to X-Flix! Entertainment done your way - the right way!");
+    super(Xres.WELCOME_MESSAGE_TITLE);
 
     // Creates entrance page with login panel
     topPan = new TopPanel();
@@ -52,8 +51,7 @@ class PrimaryWindow extends JFrame {
 
     createInfoTables();
 
-    String key = "BayWatch";
-    Movie value = newReleases.get(key);
+    Movie value = newReleases.get("BayWatch");
     add(new JLabel(value.moviePoster), BorderLayout.SOUTH);
     repaint();
   }
@@ -173,8 +171,10 @@ class PrimaryWindow extends JFrame {
         newReleases.put(keyTitle, valueNewMovie);
       }
     }
+    newReleases.put("x",new Movie("temp","1232","x","x","x","x","x","x","x","x","Alien_Covenant.png","y"));
+    writeMoviesToFile();
     //Testing Loop
-    for (String movie : newReleases.keySet()) {
+/*    for (String movie : newReleases.keySet()) {
 
       Movie value = newReleases.get(movie);
       System.out.println(value.title);
@@ -189,7 +189,7 @@ class PrimaryWindow extends JFrame {
       System.out.println(value.tag3);
       System.out.println(value.picFileName);
       System.out.println(value.synopsis);
-    }
+    }*/
   }
 
   // Resets entrance page & login panel when user logs out
@@ -218,6 +218,22 @@ class PrimaryWindow extends JFrame {
     add(loginHolder, BorderLayout.CENTER);
     this.revalidate();
     this.repaint();
+  }
+
+  void writeMoviesToFile(){
+    try (BufferedWriter data = new BufferedWriter(new FileWriter(Xres.NEW_MOVIES_FILE), 1024)) {
+      newReleases.keySet().forEach(k -> {
+        try {
+          data.append(newReleases.get(k).toString());
+        } catch (IOException e) {
+          System.err.println("Error opening new movies file.");
+        }
+      });
+      data.flush(); // write the rest of the buffer to the file
+    } catch (IOException e){  // catch all the errors here
+      System.err.println("Error opening file.");
+//	      System.exit(1);
+    }
   }
 
   LoginPanel getLoginPanel() {

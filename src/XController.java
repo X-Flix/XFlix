@@ -6,6 +6,7 @@ import java.awt.*;
 
 class XController {
   private PrimaryWindow  primary;
+  private static Integer currentUserType;
 
   XController() {
     // Four statements needed for almost every GUI program
@@ -67,6 +68,8 @@ class XController {
       // Sets up the contents within the program window based upon
       // whether the user is a customer or system admin
       if (userName.startsWith("admin")) {
+        // set the userType as a standard user
+        currentUserType = Xres.TYPE_ADMIN;
 
         // Sets boolean flag to indicate admin user logged in
         primary.adminUser = true;
@@ -74,6 +77,8 @@ class XController {
         // Uses different colored icon for admin users
         primary.topPan.getUserLabel().setIcon(Xres.ADMIN_ICON);
       } else {
+        // set the userType as a standard user
+        currentUserType = Xres.TYPE_USER;
 
         // Sets boolean flag to indicate regular user logged in
         primary.regUser = true;
@@ -139,5 +144,14 @@ class XController {
     primary.topPan.removeAll();
     primary.topPan.getToppanelFlow().setAlignment(FlowLayout.CENTER);
     primary.refreshLogin();
+
+    // reattach actionListeners to the buttons
+    primary.topPan.getLogOffBtn().addActionListener(e -> logOff());
+    primary.getLoginPanel().getUserLoginBtn().addActionListener(e -> logOn());
+    primary.getLoginPanel().getForgotPassBtn().addActionListener(e -> forgotPass());
+  }
+
+  static Integer getCurrentUserType(){
+    return currentUserType;
   }
 }
