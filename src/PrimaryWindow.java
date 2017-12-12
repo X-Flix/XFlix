@@ -8,13 +8,18 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 
@@ -296,6 +301,21 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       JOptionPane passwordReset = new JOptionPane();
       passwordReset.showInputDialog("Please enter your email address on file.");
     }
+  }
+  
+  void writeMoviesToFile(){
+	  try (BufferedWriter data = new BufferedWriter(new FileWriter(newMovFIle), 1024)) {
+		  newReleases.keySet().forEach(k->{
+			try {
+				data.append(newReleases.get(k).toString());
+			} catch (IOException e) {
+		        System.err.println("Error opening new movies file.");
+			}
+		});
+		  data.flush(); // write the rest of the buffer to the file
+	  } catch (IOException e){  // catch all the errors here
+	      System.err.println("Error opening file.");
+	  }
   }
 
 }
