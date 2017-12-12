@@ -1,0 +1,9 @@
+user|Alien: Covenant~Returned|Kingsman: The Golden Circle~Returned|BayWatch~Returned|Guardians of the Galaxy Vol. 2~Returned|Captain America:Civil War3~Checked-Out|
+johndoe@gmail.com|Detroit~Returned|Guardians of the Galaxy Vol. 2|Arrival3~Checked-Out|
+janedoe@gmail.com|Wonder Woman~Returned|All Saints~Returned|Home Again~Checked-Out|La La Land3~Checked-Out|
+juniordoe@nickjr.com|Captain Underpants: The First Epic Movie~Returned|Zootopia~Returned|Despicable Me 3~Checked-Out|
+jackdoe@gmail.com|Captain America:Civil War~Returned|Guardians of the Galaxy Vol. 2~Returned|Wonder Woman|Alien: Covenant3~Checked-Out|
+tonysoprano@hbo.com|Despicable Me 3~Checked-Out|
+dexterm@showtime.com|La La Land3~Checked-Out|
+rgrimes@amc.com|Captain America:Civil War3~Checked-Out|
+bwayne@dc.com|Wonder Woman~Checked-Out|

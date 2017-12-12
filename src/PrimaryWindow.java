@@ -33,10 +33,10 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
   // Text files containing information on usernames/passwords, user accounts,
   // and movies currently in the rental library
-  protected static String userPassFile = "username_password.txt";
-  protected static String userAcctsFile = "user_account_info.txt";
-  protected static String newMovFile = "new_movies.txt";
-  protected static String rentHistFile = "rental_histories.txt";
+  protected static String userPassFile = "TextDatabaseFiles/username_password.txt";
+  protected static String userAcctsFile = "TextDatabaseFiles/user_account_info.txt";
+  protected static String newMovFile = "TextDatabaseFiles/new_movies.txt";
+  protected static String rentHistFile = "TextDatabaseFiles/rental_histories.txt";
   private Scanner readFile;
 
   // HashMaps serving as temporary databases that house info needed by users
@@ -334,7 +334,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     regUser = false;
 
     // Redraws the login screen back to its original state
-    topPan.logo = new ImageIcon(getClass().getResource("xflix_logo.png"));
+    topPan.logo = new ImageIcon("IconPics/xflix_logo.png");
     topPan.add(new JLabel(topPan.logo));
     topPan.setVisible(true);
     add(topPan, BorderLayout.NORTH);
@@ -351,10 +351,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
 
     if (e.getSource() == login.userLogin) {
-      TopPanel.logo = new ImageIcon(
-          getClass().getResource("xflix_logo_small.png"));
-      TopPanel.userIcon = new ImageIcon(
-          getClass().getResource("user_icon_small.png"));
+      TopPanel.logo = new ImageIcon("IconPics/xflix_logo_small.png");
+      TopPanel.userIcon = new ImageIcon("IconPics/user_icon_small.png");
     }
 
     if (e.getSource() == login.forgotPass) {

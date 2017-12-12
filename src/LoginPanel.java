@@ -8,9 +8,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.io.*;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -112,7 +109,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         System.out.println("Username & password match.");
 
         pw.currentUserID= userName;
-        System.out.println("after assigning userName to currentNAme");
+        System.out.println("after assigning userName to currentName");
         pw.currentUserName = pw.userAccounts.get(userName).firstName;
         // This section removes the login panel and alters the panel on
         // the top border after the user clicks the logon button
@@ -121,8 +118,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.removeAll(); // Removes all elements of the panel container
         
         pw.topPan.removeAll();
-        pw.topPan.logo = new ImageIcon(
-            getClass().getResource("xflix_logo_small.png"));
+        pw.topPan.logo = new ImageIcon("IconPics/xflix_logo_small.png");
 
         // Sets up the contents within the program window based upon
         // whether the user is a customer or system admin
@@ -132,16 +128,14 @@ public class LoginPanel extends JPanel implements ActionListener {
           pw.adminUser = true;
 
           // Uses different colored icon for admin users
-          pw.topPan.userIcon = new ImageIcon(
-              getClass().getResource("admin_icon_small.png"));
+          pw.topPan.userIcon = new ImageIcon("IconPics/admin_icon_small.png");
         } else {
 
           // Sets boolean flag to indicate regular user logged in
           pw.regUser = true;
 
           // Uses different colored icon for regular users
-          pw.topPan.userIcon = new ImageIcon(
-              getClass().getResource("user_icon_small.png"));
+          pw.topPan.userIcon = new ImageIcon("IconPics/user_icon_small.png");
         }
 
         pw.topPan.flow.setAlignment(FlowLayout.RIGHT);

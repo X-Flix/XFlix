@@ -4,7 +4,6 @@
  */
 
 // Imports the AWT and Swing packages needed to implement GUI elements
-import java.awt.*;
 import javax.swing.*;
 
 public class XFlixMainTest {

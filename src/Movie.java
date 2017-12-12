@@ -36,7 +36,7 @@ public class Movie {
     this.tag3 = tag3;
     this.picFileName = picFileName;
     this.synopsis = synopsis;
-    moviePoster = new ImageIcon(getClass().getResource(picFileName));
+    moviePoster = new ImageIcon(picFileName);
   }
 
   @Override
