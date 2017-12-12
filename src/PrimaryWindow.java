@@ -314,7 +314,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 		});
 		  data.flush(); // write the rest of the buffer to the file
 	  } catch (IOException e){  // catch all the errors here
-	      System.err.println("Error opening file.");
+	      System.err.println("Error opening new movies file.");
 	  }
   }
 
