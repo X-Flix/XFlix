@@ -1,14 +1,19 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
 public class MainBody extends JTabbedPane implements ActionListener {
@@ -28,6 +33,19 @@ public class MainBody extends JTabbedPane implements ActionListener {
   protected JPanel viewEditMovie = new JPanel();
   protected JPanel addNewMovie = new JPanel();
 
+  protected class CartButton extends JButton {
+    protected String movTitle;
+
+    CartButton(String button, String movie) {
+      super(button);
+      movTitle = movie;
+    }
+
+    public String getMovie() {
+      return movTitle;
+    }
+  }
+
   public MainBody(PrimaryWindow pw) {
 
     super();
@@ -44,7 +62,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
       this.addTab("Cart", cart);
       this.addTab("Rental History", rentalHistory);
 
-      //this.setLayout(new BorderLayout());
+      // this.setLayout(new BorderLayout());
       makeWhatsNewTab(pw.newReleases);
 
     } else if (pw.adminUser) {
@@ -61,60 +79,87 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    // Timer timer = new Timer();
-    // TODO Auto-generated method stub
+
+    // This responds to a user clicking one of the buttons next to a movie,
+    // which adds it to their rental cart and displays a confirmation message
+    if (e.getSource() instanceof CartButton) {
+      System.out.println("button INSIDE generic ACT LISTENER");
+    }
+
+    System.out.println("GENERIC ACTION LISTENER");
 
   }
 
   public void makeWhatsNewTab(HashMap<String, Movie> hm) {
-    // GridLayout grid = new GridLayout(1, 2);
-    // FlowLayout flow = new FlowLayout();
-    // BoxLayout box = new BoxLayout(whatsNew, BoxLayout.Y_AXIS);
-    // whatsNew.setMinimumSize(new Dimension(150, 222));
 
-    JScrollPane wn = new JScrollPane(
+    JPanel whatsNewHolder = new JPanel();
+
+    GridLayout grid = new GridLayout(hm.size(), 1);
+    FlowLayout flow = new FlowLayout();
+    BoxLayout box = new BoxLayout(whatsNew, BoxLayout.Y_AXIS);
+
+    whatsNew.setLayout(box);
+
+    JScrollPane wnScrollPane = new JScrollPane(
         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    wnScrollPane.setVisible(true);
 
-    // whatsNew.setLayout();
-    JPanel rowHolder = new JPanel();
-    rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
-    
-    JLabel picHolder;
-    JPanel movieInfo = new JPanel();
-    movieInfo.setLayout(new BoxLayout(movieInfo, BoxLayout.Y_AXIS));
-    JPanel buttonHolder = new JPanel();
+    whatsNewHolder.setLayout(grid);
 
-    JButton addToCart = new JButton("Add to Cart");
-    addToCart.setToolTipText("Rent this title today!\nAdd it to your cart.");
+    // Creates the list of new movies, adding the picture, description, and a
+    // button to have the movie added to a customer's cart
+    for (String movie : hm.keySet()) {
 
-    String key = "BayWatch";
-    Movie value = hm.get(key);
-    picHolder = new JLabel(value.moviePoster);
-    picHolder.setPreferredSize(new Dimension(150, 222));
-    whatsNew.add(picHolder);
+      String key = movie;
+      Movie value = hm.get(key);
+      JPanel rowHolder = new JPanel();
+      rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
 
-    String actors = String.format("%s, %s, %s", value.cast1, value.cast2,
-        value.cast3);
-    String tags = String.format("%s, %s, %s", value.tag1, value.tag2,
-        value.tag3);
-    movieInfo.add(new JLabel("Title: " + value.title));
-    movieInfo.add(new JLabel("Released: " + value.year));
-    movieInfo.add(new JLabel("Genre: " + value.genre));
-    movieInfo.add(new JLabel("Director: " + value.director));
-    movieInfo.add(new JLabel("Cast: " + actors));
-    movieInfo.add(new JLabel("Tags: " + tags));
-    movieInfo.add(new JLabel("<HTML>Summary: " + value.synopsis + "<HTML>"));
+      JLabel picHolder;
+      JPanel movieInfo = new JPanel();
+      movieInfo.setLayout(new BoxLayout(movieInfo, BoxLayout.Y_AXIS));
+      JPanel buttonHolder = new JPanel();
 
-    whatsNew.add(movieInfo);
-    whatsNew.add(buttonHolder.add(addToCart));
+      CartButton addToCart = new CartButton("Add to Cart", key);
+      addToCart.setToolTipText("Rent this title today!\nAdd it to your cart.");
+      addToCart.addActionListener(new ActionListener() {
+        @Override public void actionPerformed(ActionEvent e) {
+          System.out.println("You clicked button: " + addToCart.movTitle);
+          pw.movieCart.add(addToCart.movTitle);
+        }
+      });
 
-    wn.setVisible(true);
-    whatsNew.add(wn);
-    whatsNew.setVisible(true);
+      picHolder = new JLabel(value.moviePoster);
+      picHolder.setPreferredSize(new Dimension(150, 222));
+      rowHolder.add(picHolder);
+
+      String actors = String.format("%s, %s, %s", value.cast1, value.cast2,
+          value.cast3);
+      String tags = String.format("%s, %s, %s", value.tag1, value.tag2,
+          value.tag3);
+      movieInfo.add(new JLabel("Title: " + value.title));
+      movieInfo.add(new JLabel("Released: " + value.year));
+      movieInfo.add(new JLabel("Genre: " + value.genre));
+      movieInfo.add(new JLabel("Director: " + value.director));
+      movieInfo.add(new JLabel("Cast: " + actors));
+      movieInfo.add(new JLabel("Tags: " + tags));
+      movieInfo.add(new JLabel("<HTML>Summary: " + value.synopsis + "<HTML>"));
+
+      rowHolder.add(movieInfo);
+      rowHolder.add(buttonHolder.add(addToCart));
+
+      whatsNewHolder.add(rowHolder);
+      whatsNewHolder.setVisible(true);
+      whatsNewHolder.repaint();
+      whatsNewHolder.revalidate();
+    }
+
+    wnScrollPane.setViewportView(whatsNewHolder);
+    wnScrollPane.repaint();
+    wnScrollPane.revalidate();
+    whatsNew.add(wnScrollPane);
     whatsNew.repaint();
     whatsNew.revalidate();
-
   }
-
 }

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -21,7 +22,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
   protected TopPanel topPan;
   protected LoginPanel login;
-  JPanel loginHolder = new JPanel(new FlowLayout());
+  protected JPanel loginHolder = new JPanel(new FlowLayout());
   protected MainBody main;
 
   protected String currentUserID = null;
@@ -42,6 +43,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   protected HashMap<String, String> userAndPass = new HashMap();
   protected HashMap<String, UserAccount> userAccounts = new HashMap();
   protected HashMap<String, Movie> newReleases = new HashMap();
+  protected HashSet<String> movieCart = new HashSet();
+  
 
   public PrimaryWindow() {
     // Invokes super constructor & sets the window title
@@ -58,10 +61,10 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
     createInfoTables();
 
-    String key = "BayWatch";
-    Movie value = newReleases.get("BayWatch");
-    add(new JLabel(value.moviePoster), BorderLayout.SOUTH);
-    repaint();
+//    String key = "BayWatch";
+//    Movie value = newReleases.get("BayWatch");
+//    add(new JLabel(value.moviePoster), BorderLayout.SOUTH);
+//    repaint();
   }
 
   // Creates various lists/maps/tables based on the current content of the

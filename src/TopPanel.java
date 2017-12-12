@@ -24,7 +24,7 @@ public class TopPanel extends JPanel implements ActionListener {
 
     this.pw = pw;
 
-    logo = new ImageIcon("../IconPics/xflix_logo.png");
+    logo = new ImageIcon(getClass().getResource("xflix_logo.png"));
     this.add(new JLabel(logo));
 
     logOff.setPreferredSize(new Dimension(100, 50));

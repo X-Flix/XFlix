@@ -160,6 +160,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         
         pw.topPan.add(welcomeBox);
         pw.topPan.add(pw.topPan.logOff);
+        pw.remove(pw.loginHolder);
         pw.main = new MainBody(pw);
         pw.add(pw.main, BorderLayout.CENTER);
         pw.revalidate();
