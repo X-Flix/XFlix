@@ -4,15 +4,19 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
@@ -62,8 +66,10 @@ public class MainBody extends JTabbedPane implements ActionListener {
       this.addTab("Cart", cart);
       this.addTab("Rental History", rentalHistory);
 
-      // this.setLayout(new BorderLayout());
+      // Loads information and content into the respective tabs
       makeWhatsNewTab(pw.newReleases);
+      makeAcctInfoTab(pw.userAccounts);
+      makeRentHistTab(pw.rentalHistory);
 
     } else if (pw.adminUser) {
 
@@ -90,6 +96,8 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
   }
 
+  // This sets up the What's New tab under a user profile that shows the most
+  // recent additions to the film library. It is independent of user account.
   public void makeWhatsNewTab(HashMap<String, Movie> hm) {
 
     JPanel whatsNewHolder = new JPanel();
@@ -101,7 +109,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
     whatsNew.setLayout(box);
 
     JScrollPane wnScrollPane = new JScrollPane(
-        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     wnScrollPane.setVisible(true);
 
@@ -124,9 +132,31 @@ public class MainBody extends JTabbedPane implements ActionListener {
       CartButton addToCart = new CartButton("Add to Cart", key);
       addToCart.setToolTipText("Rent this title today!\nAdd it to your cart.");
       addToCart.addActionListener(new ActionListener() {
-        @Override public void actionPerformed(ActionEvent e) {
-          System.out.println("You clicked button: " + addToCart.movTitle);
-          pw.movieCart.add(addToCart.movTitle);
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          if (pw.rentalHistory.containsKey(addToCart.movTitle)
+          // &&
+          // pw.rentalHistory.get(addToCart.movTitle).equalsIgnoreCase("Checked-Out"))
+          ) {
+            System.out.println("Movie already CHECKED OUT");
+            JOptionPane.showMessageDialog(null,
+                "You already have checked out this movie and it"
+                    + "\nis stil in your possession.",
+                "Movie Already Checked Out", JOptionPane.ERROR_MESSAGE);
+
+          } else if (pw.movieCart.contains(addToCart.movTitle)) {
+            System.out.println("Movie ALREADY in queue");
+            JOptionPane.showMessageDialog(null,
+                "You already have this movie in your cart.",
+                "Item Already in Cart", JOptionPane.ERROR_MESSAGE);
+          } else {
+            System.out.println("You clicked button: " + addToCart.movTitle);
+            pw.movieCart.add(addToCart.movTitle);
+            JOptionPane.showMessageDialog(null,
+                addToCart.movTitle + "has been placed in your cart.",
+                "Item Sent to Cart", JOptionPane.PLAIN_MESSAGE);
+
+          }
         }
       });
 
@@ -161,5 +191,134 @@ public class MainBody extends JTabbedPane implements ActionListener {
     whatsNew.add(wnScrollPane);
     whatsNew.repaint();
     whatsNew.revalidate();
+
+  }
+
+  // This sets up the Account Info tab under a user profile
+  public void makeAcctInfoTab(HashMap<String, UserAccount> hm) {
+
+    JPanel acctInfoHolder = new JPanel();
+
+    acctInfoHolder.setLayout(new GridLayout(11, 2, 0, 7)); // set frame layout
+
+    // Customer demographic info
+    JLabel userName = new JLabel("First name:");
+    acctInfoHolder.add(userName);
+    JTextField userFirstName = new JTextField(
+        hm.get(pw.currentUserID).firstName, 40);
+    acctInfoHolder.add(userFirstName);
+    JLabel userLast = new JLabel("Last name:");
+    acctInfoHolder.add(userLast);
+    JTextField userLastName = new JTextField(hm.get(pw.currentUserID).lastName,
+        40);
+    acctInfoHolder.add(userLastName);
+    JLabel userEmail = new JLabel("Email address:");
+    acctInfoHolder.add(userEmail);
+    JTextField userEmailAddress = new JTextField(
+        hm.get(pw.currentUserID).emailAddr, 40);
+    acctInfoHolder.add(userEmailAddress);
+    JLabel userStreet = new JLabel("Street:");
+    acctInfoHolder.add(userStreet);
+    JTextField userStreetAddr = new JTextField(
+        hm.get(pw.currentUserID).streetAddr, 40);
+    acctInfoHolder.add(userStreetAddr);
+    JLabel userCity = new JLabel("City:");
+    acctInfoHolder.add(userCity);
+    JTextField userCityAddr = new JTextField(hm.get(pw.currentUserID).city, 40);
+    acctInfoHolder.add(userCityAddr);
+    JLabel userState = new JLabel("State:");
+    acctInfoHolder.add(userState);
+    JTextField userStateAddr = new JTextField(hm.get(pw.currentUserID).state,
+        40);
+    acctInfoHolder.add(userStateAddr);
+    JLabel userZip = new JLabel("Zip code:");
+    acctInfoHolder.add(userZip);
+    JTextField userZipCode = new JTextField(hm.get(pw.currentUserID).zipCode,
+        40);
+    acctInfoHolder.add(userZipCode);
+
+    // Customer payment info
+    JLabel userPayment = new JLabel("Payment method:");
+    acctInfoHolder.add(userPayment);
+    JTextField paymentMethod = new JTextField(
+        hm.get(pw.currentUserID).paymentType, 40);
+    acctInfoHolder.add(paymentMethod);
+    JLabel userCardType = new JLabel("Card type:");
+    acctInfoHolder.add(userCardType);
+    JTextField cardTypeUser = new JTextField(hm.get(pw.currentUserID).cardType,
+        40);
+    acctInfoHolder.add(cardTypeUser);
+    JLabel userCard = new JLabel("Card number:");
+    acctInfoHolder.add(userCard);
+    JTextField cardNumber = new JTextField(
+        hm.get(pw.currentUserID).accountNumber, 40);
+    acctInfoHolder.add(cardNumber);
+    JLabel userExpire = new JLabel("Expire Date:");
+    acctInfoHolder.add(userExpire);
+    JTextField expireDate = new JTextField(
+        hm.get(pw.currentUserID).cardExpireDate, 40);
+    acctInfoHolder.add(expireDate);
+
+    JButton saveButton = new JButton("Save Changes");
+    saveButton.setToolTipText("Click here to save any changes you"
+        + "\nmake to your account/profile.");
+    saveButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        hm.get(pw.currentUserID).firstName = userFirstName.getText();
+        hm.get(pw.currentUserID).lastName = userLastName.getText();
+        hm.get(pw.currentUserID).emailAddr = userEmailAddress.getText();
+        hm.get(pw.currentUserID).streetAddr = userStreetAddr.getText();
+        hm.get(pw.currentUserID).city = userCityAddr.getText();
+        hm.get(pw.currentUserID).state = userStateAddr.getText();
+        hm.get(pw.currentUserID).zipCode = userZipCode.getText();
+        hm.get(pw.currentUserID).paymentType = paymentMethod.getText();
+        hm.get(pw.currentUserID).cardType = cardTypeUser.getText();
+        hm.get(pw.currentUserID).accountNumber = cardNumber.getText();
+        hm.get(pw.currentUserID).cardExpireDate = expireDate.getText();
+
+        JOptionPane.showMessageDialog(null,
+            "Changes to your account have been saved successfully.",
+            "Account Info Updated", JOptionPane.PLAIN_MESSAGE);
+        
+      }
+
+    });
+
+    accountInfo.add(acctInfoHolder);
+
+  }
+
+  // This sets up the Rental History tab under a user profile that shows all of
+  // the previously rented films.
+  public void makeRentHistTab(HashMap<String, ArrayList<String>> hm) {
+    System.out.println("HELLLOOOO");
+    JPanel rentalHolder = new JPanel();
+    rentalHolder.setLayout(new BoxLayout(rentalHolder, BoxLayout.Y_AXIS));
+    JPanel rowHolder = new JPanel();
+    rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
+
+    for (String user : hm.keySet()) {
+      System.out.println("HELLLOOOO");
+      String key = user;
+      for (String movie : hm.get(user)) {
+        StringTokenizer st = new StringTokenizer(movie, "|");
+        String status = st.nextToken();
+        System.out.println("Movie: " + movie + " - Status: " + status);
+      }
+    }
+
+    // System.out.println("Current user logged in: " + pw.currentUserID);
+    // ArrayList rentals = hm.get(pw.currentUserID);
+    // //String movie;
+    // String status;
+    //
+    // for (String movie : hm.get(pw.currentUserID)) {
+    // StringTokenizer st = new StringTokenizer(movie, "|");
+    // movie = st.nextToken();
+    // status = st.nextToken();
+    // System.out.println("Movie: " + movie + " - Status: " + status);
+    // }
   }
 }

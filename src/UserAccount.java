@@ -8,6 +8,8 @@
 public class UserAccount {
 
   public String emailAddr;
+  public String password;
+
   public String firstName;
   public String lastName;
   public String streetAddr;
@@ -34,14 +36,29 @@ public class UserAccount {
     accountNumber = null;
     cardType = null;
     cardExpireDate = null;
+    
+    System.out.println("hello from empty USER constructor");
   }
 
   // Constructor for minimum amount of info required from a user or admin when
   // creating a new account using the application
-  public UserAccount(String emailAddr, String firstName, String lastName) {
+  public UserAccount(String emailAddr, String password, String firstName,
+      String lastName, String streetAddr, String city, String state,
+      String zipCode/*, String paymentType, String accountNumber, String cardType,
+      String cardExpireDat*/) {
+    
     this.emailAddr = emailAddr;
+    this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.streetAddr = streetAddr;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
 
+//    this. paymentType = paymentType;
+//    this.accountNumber = accountNumber;
+//    this.cardType = cardType;
+//    this.cardExpireDate = cardExpireDate;
   }
 }

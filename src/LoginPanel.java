@@ -111,7 +111,8 @@ public class LoginPanel extends JPanel implements ActionListener {
           && pw.userAndPass.get(userName).equals(passWord)) {
         System.out.println("Username & password match.");
 
-        pw.currentUserID = userName;
+        pw.currentUserID= userName;
+        System.out.println("after assigning userName to currentNAme");
         pw.currentUserName = pw.userAccounts.get(userName).firstName;
         // This section removes the login panel and alters the panel on
         // the top border after the user clicks the logon button

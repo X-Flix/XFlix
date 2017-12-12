@@ -36,14 +36,13 @@ public class Movie {
     this.tag3 = tag3;
     this.picFileName = picFileName;
     this.synopsis = synopsis;
-    moviePoster = new ImageIcon(picFileName);
-  }
-  
-  @Override
-  public String toString() {
-	  return title + "|" + year + "|" + genre + "|" + director + "|" + cast1 + "|" + 
-			  	cast2 + "|" + cast3 + "|" + tag1 + "|" + tag2 + "|" + tag3 + "|" + 
-			  picFileName + "|" + synopsis + "\n";
+    moviePoster = new ImageIcon(getClass().getResource(picFileName));
   }
 
+  @Override
+  public String toString() {
+      return title + "|" + year + "|" + genre + "|" + director + "|" + cast1 + "|" + 
+                  cast2 + "|" + cast3 + "|" + tag1 + "|" + tag2 + "|" + tag3 + "|" + 
+              picFileName + "|" + synopsis + "\n";
+  }
 }
