@@ -8,8 +8,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +48,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   protected HashMap<String, String> userAndPass = new HashMap();
   protected HashMap<String, UserAccount> userAccounts = new HashMap();
   protected HashMap<String, Movie> newReleases = new HashMap();
+  protected HashMap<String, Movie> allMovies = new HashMap();
   protected HashSet<String> movieCart = new HashSet();
   protected HashMap<String, ArrayList<String>> rentalHistory = new HashMap();
 
@@ -73,6 +77,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     makeUserPassMap();
     makeUserAcctMap();
     makeNewMoviesMap();
+    makeAllMoviesMap();
     makeRentalHistoryMap();
 
   }
@@ -173,13 +178,14 @@ public class PrimaryWindow extends JFrame implements ActionListener {
           city = st.nextToken();
           state = st.nextToken();
           zip = st.nextToken();
-//          payType = st.nextToken();
-//          acctNum = st.nextToken();
-//          cardType = st.nextToken();
-//          cardExp = st.nextToken();
+          // payType = st.nextToken();
+          // acctNum = st.nextToken();
+          // cardType = st.nextToken();
+          // cardExp = st.nextToken();
 
-          valueUserInfo = new UserAccount(keyEmail, password, fName, lName, strAdd, city,
-              state, zip/*, payType, acctNum, cardType, cardExp*/);
+          valueUserInfo = new UserAccount(keyEmail, password, fName, lName,
+              strAdd, city, state,
+              zip/* , payType, acctNum, cardType, cardExp */);
           userAccounts.put(keyEmail, valueUserInfo);
 
         }
@@ -254,6 +260,86 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
       String key = movie;
       Movie value = newReleases.get(key);
+      System.out.println(value.title);
+      System.out.println(value.year);
+      System.out.println(value.genre);
+      System.out.println(value.director);
+      System.out.println(value.cast1);
+      System.out.println(value.cast2);
+      System.out.println(value.cast3);
+      System.out.println(value.tag1);
+      System.out.println(value.tag2);
+      System.out.println(value.tag3);
+      System.out.println(value.picFileName);
+      System.out.println(value.synopsis);
+    }
+
+  }
+
+  // Creates objects of the Movie class (entire library) based on information in
+  // a text file containing the movie info, and places those user objects into
+  // a HashMap with the movie title as a key, and the objects as values. This
+  // map will be how user info is retrieved by the program for customers or
+  // admins to view/edit.
+  public void makeAllMoviesMap() {
+    try {
+      readFile = new Scanner(new File(allMovFile));
+    } catch (FileNotFoundException e) {
+      System.out.println("All Movie Info file not found.");
+      e.printStackTrace();
+    }
+
+    try {
+
+      String allMovInfo;
+      String keyTitle;
+      Movie valueMovie;
+      String year;
+      String genre;
+      String director;
+      String actor1;
+      String actor2;
+      String actor3;
+      String tag1;
+      String tag2;
+      String tag3;
+      String picFile;
+      String plotSum;
+
+      while ((allMovInfo = readFile.nextLine()) != null) {
+
+        // String tokenizer breaks each text line into raw tokens
+        StringTokenizer st = new StringTokenizer(allMovInfo, "|");
+
+        while (st.hasMoreTokens()) {
+          keyTitle = st.nextToken();
+          year = st.nextToken();
+          genre = st.nextToken();
+          director = st.nextToken();
+          actor1 = st.nextToken();
+          actor2 = st.nextToken();
+          actor3 = st.nextToken();
+          tag1 = st.nextToken();
+          tag2 = st.nextToken();
+          tag3 = st.nextToken();
+          picFile = st.nextToken();
+          plotSum = st.nextToken();
+
+          valueMovie = new Movie(keyTitle, year, genre, director, actor1,
+              actor2, actor3, tag1, tag2, tag3, picFile, plotSum);
+          allMovies.put(keyTitle, valueMovie);
+        }
+      }
+    } catch (NoSuchElementException e) {
+
+      System.out.println("Non-fatal exception at end of allMovies file");
+    }
+
+    // Testing Loop
+    for (String movie : allMovies.keySet()) {
+
+      String key = movie;
+      Movie value = allMovies.get(key);
       System.out.println(value.title);
       System.out.println(value.year);
       System.out.println(value.genre);
@@ -362,4 +448,60 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     }
   }
 
+  // Writes the current content of the HashMap containing the movies to the
+  // master text file, overwriting the original contents. It then is supposed to
+  // clear the HashMap and recreate it so that system admins can instantly see
+  // the results of any changes they make.
+  public void writeMoviesToFile() {
+    try (BufferedWriter data = new BufferedWriter(new FileWriter(allMovFile),
+        1024)) {
+      newReleases.keySet().forEach(k -> {
+        try {
+          data.append(newReleases.get(k).toString());
+        } catch (IOException e) {
+          System.err.println("Error opening new movies file.");
+        }
+      });
+      data.flush(); // write the rest of the buffer to the file
+    } catch (IOException e) { // catch all the errors here
+      System.err.println("Error opening new movies file.");
+    }
+    
+    //Clears movies HashMap since the data is no longer current 
+    allMovies.clear();
+    
+    //Rewrites the HasMap based on the newest, updated file
+    makeNewMoviesMap();
+  }
+  
+  // Writes the current content of the HashMap containing the users to the
+  // master text file, overwriting the original contents. It then is supposed to
+  // clear the HashMap and recreate it so that system admins can instantly see
+  // the results of any changes they make.
+  public void writeUsersToFile() {
+    try (BufferedWriter data = new BufferedWriter(new FileWriter(userAcctsFile),
+        1024)) {
+      userAccounts.keySet().forEach(k -> {
+        try {
+          data.append(userAccounts.get(k).toString());
+        } catch (IOException e) {
+          System.err.println("Error opening new movies file.");
+        }
+      });
+      data.flush(); // write the rest of the buffer to the file
+    } catch (IOException e) { // catch all the errors here
+      System.err.println("Error opening new movies file.");
+    }
+    
+    //Clears movies HashMap since the data is no longer current 
+    userAccounts.clear();
+    
+    //Rewrites the HasMap based on the newest, updated file
+    makeUserAcctMap();
+  }
+  
+  
+  
+  
+  
 }

@@ -7,20 +7,20 @@
  */
 public class UserAccount {
 
-  public String emailAddr;
+  public String emailAddr = null;
   public String password;
 
-  public String firstName;
-  public String lastName;
-  public String streetAddr;
-  public String city;
-  public String state;
-  public String zipCode;
+  public String firstName = null;
+  public String lastName = null;
+  public String streetAddr = null;
+  public String city = null;
+  public String state = null;
+  public String zipCode = null;
 
-  public String paymentType;
-  public String accountNumber;
-  public String cardType;
-  public String cardExpireDate;
+  public String paymentType = null;
+  public String accountNumber = null;
+  public String cardType = null;
+  public String cardExpireDate = null;
 
   // Empty constructor
   public UserAccount() {
@@ -60,5 +60,17 @@ public class UserAccount {
 //    this.accountNumber = accountNumber;
 //    this.cardType = cardType;
 //    this.cardExpireDate = cardExpireDate;
+    
+    System.out.println("hello from full USER constructor");
+
   }
+  
+  
+  @Override
+  public String toString() {
+      return emailAddr + "|" + password + "|" + firstName + "|" + lastName + "|" + streetAddr + "|" + 
+          city + "|" + state + "|" + zipCode + "|" + paymentType + "|" + accountNumber + "|" + 
+          cardType + "|" + cardExpireDate + "\n";
+  }  
+  
 }
