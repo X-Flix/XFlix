@@ -565,63 +565,47 @@ public class MainBody extends JTabbedPane implements ActionListener {
     JLabel plotLabel = new JLabel("Plot Summary:");
     movInfoHolder.add(plotLabel);
     JTextField synopsis = new JTextField(40);
-    
+    movInfoHolder.add(synopsis);
 
     JButton saveButton = new JButton("Save Changes");
     saveButton.setToolTipText("Click here to save any changes you"
         + "\nmake to your account/profile.");
-    saveButton.addActionListener(new ActionListener() {
+    saveButton.addActionListener(s -> {
+      hm.put(title.getText(), new Movie(title.getText(),
+          year.getText(), genre.getText(), director.getText(),
+          cast1.getText(),cast2.getText(), cast3.getText(),
+          tag1.getText(), tag2.getText(), tag3.getText(),
+          picFileName.getText(), synopsis.getText()));
+      hm.entrySet().forEach(System.err::println);
+      // Invokes method that updates HashMap and master text file
+      pw.writeMoviesToFile();
 
-      @Override
-      public void actionPerformed(ActionEvent s) {
-        hm.get(pw.currentUserID).title = title.getText();
-        hm.get(pw.currentUserID).year = year.getText();
-        hm.get(pw.currentUserID).genre = genre.getText();
-        hm.get(pw.currentUserID).director = director.getText();
-        hm.get(pw.currentUserID).cast1 = cast1.getText();
-        hm.get(pw.currentUserID).cast2 = cast2.getText();
-        hm.get(pw.currentUserID).cast3 = cast3.getText();
-        hm.get(pw.currentUserID).tag1 = tag1.getText();
-        hm.get(pw.currentUserID).tag2 = tag2.getText();
-        hm.get(pw.currentUserID).tag3 = tag3.getText();
-        hm.get(pw.currentUserID).picFileName = picFileName.getText();
-        hm.get(pw.currentUserID).synopsis = synopsis.getText();
-        
-        // Invokes method that updates HashMap and master text file
-        pw.writeMoviesToFile();
-
-        JOptionPane.showMessageDialog(null,
-            "The movie record has been created/updated successfully.",
-            "Movie Info Updated", JOptionPane.PLAIN_MESSAGE);
-
-      }
+      JOptionPane.showMessageDialog(null,
+          "The movie record has been created/updated successfully.",
+          "Movie Info Updated", JOptionPane.PLAIN_MESSAGE);
 
     });
 
     JButton clearButton = new JButton("Clear");
     saveButton.setToolTipText("Click here to clear this form so that you"
         + "\nmay work on or create another user account.");
-    clearButton.addActionListener(new ActionListener() {
+    clearButton.addActionListener(arg0 -> {
 
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        
-        title.setText(null);
-        year.setText(null);
-        genre.setText(null);
-        director.setText(null);
-        cast1.setText(null);
-        cast2.setText(null);
-        cast3.setText(null);
-        tag1.setText(null);
-        tag2.setText(null);
-        tag3.setText(null);
-        picFileName.setText(null);
-        synopsis.setText(null);
-        JOptionPane.showMessageDialog(null,
-            "All fields have been cleared successfully.", "Form Cleared",
-            JOptionPane.PLAIN_MESSAGE);
-      }
+      title.setText(null);
+      year.setText(null);
+      genre.setText(null);
+      director.setText(null);
+      cast1.setText(null);
+      cast2.setText(null);
+      cast3.setText(null);
+      tag1.setText(null);
+      tag2.setText(null);
+      tag3.setText(null);
+      picFileName.setText(null);
+      synopsis.setText(null);
+      JOptionPane.showMessageDialog(null,
+          "All fields have been cleared successfully.", "Form Cleared",
+          JOptionPane.PLAIN_MESSAGE);
     });
 
     movInfoHolder.add(saveButton);
@@ -630,5 +614,4 @@ public class MainBody extends JTabbedPane implements ActionListener {
     viewEditCreateMovie.add(movInfoHolder);
 
   }
-
 }

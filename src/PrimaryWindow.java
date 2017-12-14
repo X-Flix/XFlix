@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
 
 public class PrimaryWindow extends JFrame implements ActionListener {
 
@@ -367,6 +368,31 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       JOptionPane passwordReset = new JOptionPane();
       passwordReset.showInputDialog("Please enter your email address on file.");
     }
+  }
+  void writeToFile(String dest, Map srcMap, Map allMap, Function makeMap){
+    // Writes the current content of the HashMap containing the movies to the
+    // master text file, overwriting the original contents. It then is supposed to
+    // clear the HashMap and recreate it so that system admins can instantly see
+    // the results of any changes they make.
+      try (BufferedWriter data = new BufferedWriter(new FileWriter(dest),
+          1024)) {
+        srcMap.keySet().forEach(k -> {
+          try {
+            data.append(srcMap.get(k).toString());
+          } catch (IOException e) {
+            System.err.println("Error opening new movies file.");
+          }
+        });
+        data.flush(); // write the rest of the buffer to the file
+      } catch (IOException e) { // catch all the errors here
+        System.err.println("Error opening new movies file.");
+      }
+
+      //Clears movies HashMap since the data is no longer current
+      allMap.clear();
+
+      //Rewrites the HasMap based on the newest, updated file
+//      makeMap.apply();
   }
 
   // Writes the current content of the HashMap containing the movies to the

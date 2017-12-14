@@ -6,6 +6,7 @@ import javax.swing.*;
  *
  */
 public class Movie {
+  private static String BLANK_PIC = "blank_pic.png";
 
   String title;
   String year;
@@ -34,7 +35,8 @@ public class Movie {
     this.tag1 = tag1;
     this.tag2 = tag2;
     this.tag3 = tag3;
-    this.picFileName = "MoviePics/"+picFileName;
+    this.picFileName = "MoviePics/" + ((picFileName.isEmpty())?
+                                        BLANK_PIC:picFileName);
     this.synopsis = synopsis;
     moviePoster = new ImageIcon(this.picFileName);
   }
