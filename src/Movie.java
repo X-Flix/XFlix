@@ -10,7 +10,7 @@ public class Movie {
   String title;
   String year;
   String genre;
-  protected String director;
+  String director;
   String cast1;
   String cast2;
   String cast3;

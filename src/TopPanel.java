@@ -26,10 +26,6 @@ public class TopPanel extends JPanel implements ActionListener {
     logOff.addActionListener(this);
   }
 
-  public void adjustTopPanel() {
-
-  }
-
   @Override
   public void actionPerformed(ActionEvent ae) {
 

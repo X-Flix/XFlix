@@ -5,23 +5,13 @@
  */
 
 // Imports the AWT and Swing packages needed to implement GUI elements
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.stream.Stream;
-
-import javax.swing.*;
+import java.io.*;
+import java.util.*;
 
 public class PrimaryWindow extends JFrame implements ActionListener {
 
@@ -66,6 +56,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     loginHolder.add(login);
     add(loginHolder, BorderLayout.CENTER);
     add(topPan, BorderLayout.NORTH);
+
+    getRootPane().setDefaultButton(login.userLogin);
 
     createInfoTables();
   }
@@ -356,6 +348,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     login.setVisible(true);
     loginHolder.add(login);
     add(loginHolder, BorderLayout.CENTER);
+
+    getRootPane().setDefaultButton(login.userLogin);
     this.revalidate();
     this.repaint();
   }

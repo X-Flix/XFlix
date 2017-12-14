@@ -1,26 +1,11 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.StringTokenizer;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JViewport;
-import javax.swing.ScrollPaneConstants;
 
 public class MainBody extends JTabbedPane implements ActionListener {
 
@@ -343,20 +328,19 @@ public class MainBody extends JTabbedPane implements ActionListener {
     //rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
     //rowHolder.setLayout(new GridLayout(1, 2));
     
-    ArrayList<String> userRented = new ArrayList<String>();
-    
+    ArrayList<String> userRented;
     userRented = hm.get(pw.currentUserID);
     
     for (String rental : userRented) {
-      
+
+      System.err.println(rental);
       StringTokenizer st = new StringTokenizer(rental, "~");
       
       String movie = st.nextToken();
       String status = st.nextToken();
       
       System.out.println("Movie: " + movie + " - Status: " + status);
-      
-      
+
       rowHolder = new JPanel();
       rowHolder.add(new JLabel(movie));
       rowHolder.add(new JLabel(status));

@@ -5,14 +5,14 @@
  */
 
 // Imports the AWT and Swing packages needed to implement GUI elements
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginPanel extends JPanel implements ActionListener {
 
@@ -45,7 +45,6 @@ public class LoginPanel extends JPanel implements ActionListener {
     userLabel = new JLabel("Username (Email)", SwingConstants.LEFT);
     userLabel.setToolTipText(
         "Enter the username or email address for your account.");
-    
     add(userLabel);
     userField = new JTextField(50);
     userField
@@ -62,7 +61,9 @@ public class LoginPanel extends JPanel implements ActionListener {
     userLogin = new JButton("LOGIN");
     userLogin.setToolTipText("Click her to begin watching!");
     userLogin.addActionListener(this);
+    userLogin.setDefaultCapable(true);
     add(userLogin);
+
     forgotPass = new JButton("Forgot Password?");
     forgotPass
         .setToolTipText("Click here to retrieve/reset forgotten passwords");
