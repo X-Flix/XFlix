@@ -1,4 +1,4 @@
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /**
  * This class is the framework that contains the basic information stored for a
@@ -34,9 +34,9 @@ public class Movie {
     this.tag1 = tag1;
     this.tag2 = tag2;
     this.tag3 = tag3;
-    this.picFileName = picFileName;
+    this.picFileName = "MoviePics/"+picFileName;
     this.synopsis = synopsis;
-    moviePoster = new ImageIcon(picFileName);
+    moviePoster = new ImageIcon(this.picFileName);
   }
 
   @Override

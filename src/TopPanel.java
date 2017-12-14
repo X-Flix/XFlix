@@ -1,12 +1,7 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class TopPanel extends JPanel implements ActionListener {
 
@@ -24,7 +19,7 @@ public class TopPanel extends JPanel implements ActionListener {
 
     this.pw = pw;
 
-    logo = new ImageIcon("xflix_logo.png");
+    logo = new ImageIcon("IconPics/xflix_logo.png");
     this.add(new JLabel(logo));
 
     logOff.setPreferredSize(new Dimension(100, 50));
