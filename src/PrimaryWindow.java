@@ -19,40 +19,42 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.stream.Stream;
 
 import javax.swing.*;
 
 public class PrimaryWindow extends JFrame implements ActionListener {
 
-  protected TopPanel topPan;
-  protected LoginPanel login;
-  protected JPanel loginHolder = new JPanel(new FlowLayout());
-  protected MainBody main;
+  TopPanel topPan;
+  private LoginPanel login;
+  JPanel loginHolder = new JPanel(new FlowLayout());
+  MainBody main;
 
-  protected String currentUserID = "";
-  protected String currentUserName = "";
-  protected boolean adminUser = false;
-  protected boolean regUser = false;
+  String currentUserID = "";
+  String currentUserName = "";
+  boolean adminUser;
+  boolean regUser;
 
   // Text files containing information on usernames/passwords, user accounts,
   // and movies currently in the rental library
-  protected static String userPassFile = "TextDatabaseFiles/username_password.txt";
-  protected static String userAcctsFile = "TextDatabaseFiles/user_account_info.txt";
-  protected static String newMovFile = "TextDatabaseFiles/new_movies.txt";
-  protected static String rentHistFile = "TextDatabaseFiles/rental_histories.txt";
+  private static String userPassFile = "TextDatabaseFiles/username_password.txt";
+  private static String userAcctsFile = "TextDatabaseFiles/user_account_info.txt";
+  private static String newMovFile = "TextDatabaseFiles/new_movies.txt";
+  private static String allMovFile = "TextDatabaseFiles/all_movies.txt";
+  private static String rentHistFile = "TextDatabaseFiles/rental_histories.txt";
   private Scanner readFile;
 
   // HashMaps serving as temporary databases that house info needed by users
   // to search for movies, as well as add or edit information under their
   // profiles.
-  protected HashMap<String, String> userAndPass = new HashMap();
-  protected HashMap<String, UserAccount> userAccounts = new HashMap();
-  protected HashMap<String, Movie> newReleases = new HashMap();
-  protected HashMap<String, Movie> allMovies = new HashMap();
-  protected HashSet<String> movieCart = new HashSet();
-  protected HashMap<String, ArrayList<String>> rentalHistory = new HashMap();
+  HashMap<String, String> userAndPass = new HashMap();
+  HashMap<String, UserAccount> userAccounts = new HashMap();
+  HashMap<String, Movie> newReleases = new HashMap();
+  HashMap<String, Movie> allMovies = new HashMap();
+  HashSet<String> movieCart = new HashSet();
+  HashMap<String, ArrayList<String>> rentalHistory = new HashMap();
 
-  public PrimaryWindow() {
+  PrimaryWindow() {
     // Invokes super constructor & sets the window title
     super("Welcome to X-Flix! Entertainment done your way - the right way!");
 
@@ -71,7 +73,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   // Creates various lists/maps/tables based on the current content of the
   // text files containing various information such as username/password, user
   // account info, current movie library, rental history, etc.
-  public void createInfoTables() {
+  private void createInfoTables() {
 
     // Creates the HashMap for usernames/passwords
     makeUserPassMap();
@@ -91,7 +93,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   // Any changes to the HashMap are they written back to the file for storage
   // and later use/referrence.
 
-  public void makeUserPassMap() {
+  private void makeUserPassMap() {
     try {
       readFile = new Scanner(new File(userPassFile));
     } catch (FileNotFoundException e) {
@@ -99,109 +101,75 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       e.printStackTrace();
     }
 
-    try {
+    while (readFile.hasNextLine()) {
+      // String tokenizer breaks each text line into raw tokens
+      StringTokenizer st = new StringTokenizer(readFile.nextLine());
 
-      String userPass;
-      String keyUser;
-      String valuePass;
-
-      while ((userPass = readFile.nextLine()) != null) {
-
-        // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(userPass);
-
-        while (st.hasMoreTokens()) {
-          keyUser = st.nextToken();
-          valuePass = st.nextToken();
-          userAndPass.put(keyUser, valuePass);
-        }
-
+      while (st.hasMoreTokens()) {
+        String keyUser = st.nextToken();
+        String valuePass = st.nextToken();
+        userAndPass.put(keyUser, valuePass);
       }
-    } catch (NoSuchElementException e) {
 
-      System.out.println("Non-fatal exception at end of userPass file");
     }
-
-    /*
-     * Testing code to loop through elements of a map for (String user :
-     * userAndPass.keySet()) {
-     * 
-     * String key = user.toString(); String value =
-     * userAndPass.get(user).toString(); System.out.println("User: " + key +
-     * "/ Password: " + value); }
-     */
-
   }
+
+    /* Testing code to loop through elements of a map
+    for (String user : userAndPass.keySet()) {
+
+      String key = user.toString();
+      String value = userAndPass.get(user).toString();
+      System.out.println("User: " + key + "/ Password: " + value);
+    }
+    */
 
   // Creates objects of the UserAccount class based on information in a text
   // file containing all of the user info, and places those user objects into
   // a HashMap with the email address (username/ID) as a key, and the user
   // objects as values. This map will be how user info is retrieved by the
   // program for customers or admins to view/edit.
-  public void makeUserAcctMap() {
+  private void makeUserAcctMap() {
     try {
       readFile = new Scanner(new File(userAcctsFile));
     } catch (FileNotFoundException e) {
       System.out.println("User Account Info file not found.");
       e.printStackTrace();
     }
-
-    try {
-
-      String userInfo;
-      String keyEmail;
-      UserAccount valueUserInfo;
-      String email;
-      String password;
-      String fName;
-      String lName;
-      String strAdd;
-      String city;
-      String state;
-      String zip;
-      String payType;
-      String acctNum;
-      String cardType;
-      String cardExp;
-
-      while ((userInfo = readFile.nextLine()) != null) {
+    while (readFile.hasNextLine()) {
 
         // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(userInfo, "|");
+        StringTokenizer st = new StringTokenizer(readFile.nextLine(), "|");
 
         while (st.hasMoreTokens()) {
-          keyEmail = st.nextToken();
-          password = st.nextToken();
-          fName = st.nextToken();
-          lName = st.nextToken();
-          strAdd = st.nextToken();
-          city = st.nextToken();
-          state = st.nextToken();
-          zip = st.nextToken();
+          String keyEmail = st.nextToken();
+          String password = st.nextToken();
+          String fName = st.nextToken();
+          String lName = st.nextToken();
+          String strAdd = st.nextToken();
+          String city = st.nextToken();
+          String state = st.nextToken();
+          String zip = st.nextToken();
           // payType = st.nextToken();
           // acctNum = st.nextToken();
           // cardType = st.nextToken();
           // cardExp = st.nextToken();
 
-          valueUserInfo = new UserAccount(keyEmail, password, fName, lName,
+          UserAccount valueUserInfo = new UserAccount(keyEmail, password, fName, lName,
               strAdd, city, state,
               zip/* , payType, acctNum, cardType, cardExp */);
           userAccounts.put(keyEmail, valueUserInfo);
 
         }
       }
-    } catch (NoSuchElementException e) {
-
-      System.out.println("Non-fatal exception at end of userAccounts file");
     }
-  }
+
 
   // Creates objects of the Movie class (new releases) based on information in
   // a text file containing the movie info, and places those user objects into
   // a HashMap with the movie title as a key, and the objects as values. This
   // map will be how user info is retrieved by the program for customers or
   // admins to view/edit.
-  public void makeNewMoviesMap() {
+  private void makeNewMoviesMap() {
     try {
       readFile = new Scanner(new File(newMovFile));
     } catch (FileNotFoundException e) {
@@ -209,57 +177,35 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       e.printStackTrace();
     }
 
-    try {
+    while (readFile.hasNextLine()) {
+      // String tokenizer breaks each text line into raw tokens
+      StringTokenizer st = new StringTokenizer(readFile.nextLine(), "|");
 
-      String newMovInfo;
-      String keyTitle;
-      Movie valueNewMovie;
-      String year;
-      String genre;
-      String director;
-      String actor1;
-      String actor2;
-      String actor3;
-      String tag1;
-      String tag2;
-      String tag3;
-      String picFile;
-      String plotSum;
+      while (st.hasMoreTokens()) {
+        String keyTitle = st.nextToken();
+        String year = st.nextToken();
+        String genre = st.nextToken();
+        String director = st.nextToken();
+        String actor1 = st.nextToken();
+        String actor2 = st.nextToken();
+        String actor3 = st.nextToken();
+        String tag1 = st.nextToken();
+        String tag2 = st.nextToken();
+        String tag3 = st.nextToken();
+        String picFile = st.nextToken();
+        String plotSum = st.nextToken();
 
-      while ((newMovInfo = readFile.nextLine()) != null) {
-
-        // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(newMovInfo, "|");
-
-        while (st.hasMoreTokens()) {
-          keyTitle = st.nextToken();
-          year = st.nextToken();
-          genre = st.nextToken();
-          director = st.nextToken();
-          actor1 = st.nextToken();
-          actor2 = st.nextToken();
-          actor3 = st.nextToken();
-          tag1 = st.nextToken();
-          tag2 = st.nextToken();
-          tag3 = st.nextToken();
-          picFile = st.nextToken();
-          plotSum = st.nextToken();
-
-          valueNewMovie = new Movie(keyTitle, year, genre, director, actor1,
-              actor2, actor3, tag1, tag2, tag3, picFile, plotSum);
-          newReleases.put(keyTitle, valueNewMovie);
-        }
+        Movie valueNewMovie = new Movie(keyTitle, year, genre, director, actor1,
+            actor2, actor3, tag1, tag2, tag3, picFile, plotSum);
+        newReleases.put(keyTitle, valueNewMovie);
       }
-    } catch (NoSuchElementException e) {
-
-      System.out.println("Non-fatal exception at end of newMovies file");
     }
+    /*newReleases.put("x",new Movie("temp","1232","x","x","x","x","x","x","x","x","Alien_Covenant.png","y"));
+    writeMoviesToFile();*/
+    //Testing Loop
+/*    for (String movie : newReleases.keySet()) {
 
-    // Testing Loop
-    for (String movie : newReleases.keySet()) {
-
-      String key = movie;
-      Movie value = newReleases.get(key);
+      Movie value = newReleases.get(movie);
       System.out.println(value.title);
       System.out.println(value.year);
       System.out.println(value.genre);
@@ -272,7 +218,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
       System.out.println(value.tag3);
       System.out.println(value.picFileName);
       System.out.println(value.synopsis);
-    }
+    }*/
 
   }
 
@@ -281,7 +227,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   // a HashMap with the movie title as a key, and the objects as values. This
   // map will be how user info is retrieved by the program for customers or
   // admins to view/edit.
-  public void makeAllMoviesMap() {
+  private void makeAllMoviesMap() {
     try {
       readFile = new Scanner(new File(allMovFile));
     } catch (FileNotFoundException e) {
@@ -291,41 +237,26 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
     try {
 
-      String allMovInfo;
-      String keyTitle;
-      Movie valueMovie;
-      String year;
-      String genre;
-      String director;
-      String actor1;
-      String actor2;
-      String actor3;
-      String tag1;
-      String tag2;
-      String tag3;
-      String picFile;
-      String plotSum;
-
-      while ((allMovInfo = readFile.nextLine()) != null) {
+      while (readFile.hasNextLine()) {
 
         // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(allMovInfo, "|");
+        StringTokenizer st = new StringTokenizer(readFile.nextLine(), "|");
 
         while (st.hasMoreTokens()) {
-          keyTitle = st.nextToken();
-          year = st.nextToken();
-          genre = st.nextToken();
-          director = st.nextToken();
-          actor1 = st.nextToken();
-          actor2 = st.nextToken();
-          actor3 = st.nextToken();
-          tag1 = st.nextToken();
-          tag2 = st.nextToken();
-          tag3 = st.nextToken();
-          picFile = st.nextToken();
-          plotSum = st.nextToken();
+          String keyTitle = st.nextToken();
+          String year = st.nextToken();
+          String genre = st.nextToken();
+          String director = st.nextToken();
+          String actor1 = st.nextToken();
+          String actor2 = st.nextToken();
+          String actor3 = st.nextToken();
+          String tag1 = st.nextToken();
+          String tag2 = st.nextToken();
+          String tag3 = st.nextToken();
+          String picFile = st.nextToken();
+          String plotSum = st.nextToken();
 
-          valueMovie = new Movie(keyTitle, year, genre, director, actor1,
+          Movie valueMovie = new Movie(keyTitle, year, genre, director, actor1,
               actor2, actor3, tag1, tag2, tag3, picFile, plotSum);
           allMovies.put(keyTitle, valueMovie);
         }
@@ -358,7 +289,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
   // Makes the HasHMap holding each user's rental history, which is used to
   // display that respective list depending on which user is logged in.
-  public void makeRentalHistoryMap() {
+  private void makeRentalHistoryMap() {
     try {
       readFile = new Scanner(new File(rentHistFile));
     } catch (FileNotFoundException e) {
@@ -368,16 +299,12 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 
     try {
 
-      String rentalInfo;
-      String keyUser;
-      ArrayList valueRentals;
-
-      while ((rentalInfo = readFile.nextLine()) != null) {
+      while (readFile.hasNextLine()) {
 
         // String tokenizer breaks each text line into raw tokens
-        StringTokenizer st = new StringTokenizer(rentalInfo, "|");
-        keyUser = st.nextToken();
-        valueRentals = new ArrayList<String>();
+        StringTokenizer st = new StringTokenizer(readFile.nextLine(), "|");
+        String keyUser = st.nextToken();
+        ArrayList valueRentals = new ArrayList<String>();
 
         while (st.hasMoreTokens()) {
 
@@ -405,7 +332,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   }
 
   // Resets entrance page & login panel when user logs out
-  public void refreshLogin() {
+  void refreshLogin() {
 
     // Clears the window contents
     this.remove(topPan);
@@ -420,8 +347,8 @@ public class PrimaryWindow extends JFrame implements ActionListener {
     regUser = false;
 
     // Redraws the login screen back to its original state
-    topPan.logo = new ImageIcon("IconPics/xflix_logo.png");
-    topPan.add(new JLabel(topPan.logo));
+    TopPanel.logo = new ImageIcon("IconPics/xflix_logo.png");
+    topPan.add(new JLabel(TopPanel.logo));
     topPan.setVisible(true);
     add(topPan, BorderLayout.NORTH);
 
@@ -452,7 +379,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   // master text file, overwriting the original contents. It then is supposed to
   // clear the HashMap and recreate it so that system admins can instantly see
   // the results of any changes they make.
-  public void writeMoviesToFile() {
+  void writeMoviesToFile() {
     try (BufferedWriter data = new BufferedWriter(new FileWriter(allMovFile),
         1024)) {
       newReleases.keySet().forEach(k -> {
@@ -478,7 +405,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
   // master text file, overwriting the original contents. It then is supposed to
   // clear the HashMap and recreate it so that system admins can instantly see
   // the results of any changes they make.
-  public void writeUsersToFile() {
+  void writeUsersToFile() {
     try (BufferedWriter data = new BufferedWriter(new FileWriter(userAcctsFile),
         1024)) {
       userAccounts.keySet().forEach(k -> {

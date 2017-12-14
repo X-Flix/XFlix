@@ -7,19 +7,19 @@ import javax.swing.ImageIcon;
  */
 public class Movie {
 
-  protected String title;
-  protected String year;
-  protected String genre;
+  String title;
+  String year;
+  String genre;
   protected String director;
-  protected String cast1;
-  protected String cast2;
-  protected String cast3;
-  protected String tag1;
-  protected String tag2;
-  protected String tag3;
-  protected String picFileName;
-  protected String synopsis;
-  protected ImageIcon moviePoster;
+  String cast1;
+  String cast2;
+  String cast3;
+  String tag1;
+  String tag2;
+  String tag3;
+  String picFileName;
+  String synopsis;
+  ImageIcon moviePoster;
 
   public Movie(String title, String year, String genre, String director,
       String cast1, String cast2, String cast3, String tag1, String tag2,

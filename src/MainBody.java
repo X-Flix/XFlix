@@ -24,21 +24,21 @@ import javax.swing.ScrollPaneConstants;
 
 public class MainBody extends JTabbedPane implements ActionListener {
 
-  protected PrimaryWindow pw;
+  private PrimaryWindow pw;
 
-  protected JPanel whatsNew = new JPanel();
-  protected JPanel browseLibrary = new JPanel();
-  protected JPanel accountInfo = new JPanel();
-  protected JPanel cart = new JPanel();
-  protected JPanel rentalHistory = new JPanel();
+  private JPanel whatsNew = new JPanel();
+  private JPanel browseLibrary = new JPanel();
+  private JPanel accountInfo = new JPanel();
+  private JPanel cart = new JPanel();
+  private JPanel rentalHistory = new JPanel();
 
-  protected JPanel searchAccounts = new JPanel();
-  protected JPanel viewEditCreateAccount = new JPanel();
-  protected JPanel searchMovies = new JPanel();
-  protected JPanel viewEditCreateMovie = new JPanel();
+  private JPanel searchAccounts = new JPanel();
+  private JPanel viewEditCreateAccount = new JPanel();
+  private JPanel searchMovies = new JPanel();
+  private JPanel viewEditCreateMovie = new JPanel();
 
   protected class CartButton extends JButton {
-    protected String movTitle;
+    String movTitle;
 
     CartButton(String button, String movie) {
       super(button);
@@ -50,7 +50,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
     }
   }
 
-  public MainBody(PrimaryWindow pw) {
+  MainBody(PrimaryWindow pw) {
 
     super();
 
@@ -104,7 +104,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
   // This sets up the What's New tab under a user profile that shows the most
   // recent additions to the film library. It is independent of user account.
-  public void makeWhatsNewTab(HashMap<String, Movie> hm) {
+  private void makeWhatsNewTab(HashMap<String, Movie> hm) {
 
     JPanel whatsNewHolder = new JPanel();
 
@@ -203,7 +203,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
   }
   
   //This sets up the Cart tab under a user profile
-  public void makeCartTab(HashSet<String> hm) {
+  private void makeCartTab(HashSet<String> hm) {
     
 //    JPanel cartHolder = new JPanel();
 //    cartHolder.setLayout(new BoxLayout(cartHolder, BoxLayout.Y_AXIS));;
@@ -229,7 +229,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
   
 
   // This sets up the Account Info tab under a user profile
-  public void makeAcctInfoTab(HashMap<String, UserAccount> hm) {
+  private void makeAcctInfoTab(HashMap<String, UserAccount> hm) {
 
     JPanel acctInfoHolder = new JPanel();
 
@@ -334,7 +334,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
 
   // This sets up the Rental History tab under a user profile that shows all of
   // the previously rented films.
-  public void makeRentHistTab(HashMap<String, ArrayList<String>> hm) {
+  private void makeRentHistTab(HashMap<String, ArrayList<String>> hm) {
     
     JPanel rentalHolder;// = new JPanel();
     //rentalHolder.setLayout(new BoxLayout(rentalHolder, BoxLayout.Y_AXIS));
@@ -392,7 +392,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
    */
 
   // This sets up the admin account info tab
-  public void makeAdminAcctInfo(HashMap<String, UserAccount> hm) {
+  private void makeAdminAcctInfo(HashMap<String, UserAccount> hm) {
     JPanel acctInfoHolder = new JPanel();
 
     acctInfoHolder.setLayout(new GridLayout(13, 2, 0, 7)); // set frame layout
@@ -523,7 +523,7 @@ public class MainBody extends JTabbedPane implements ActionListener {
     viewEditCreateAccount.add(acctInfoHolder);
   }
 
-  public void makeAdminMovieInfo(HashMap<String, Movie> hm) {
+  private void makeAdminMovieInfo(HashMap<String, Movie> hm) {
     JPanel movInfoHolder = new JPanel();
 
     movInfoHolder.setLayout(new GridLayout(13, 2, 0, 7)); // set frame layout

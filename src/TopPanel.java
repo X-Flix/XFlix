@@ -10,16 +10,16 @@ import javax.swing.JPanel;
 
 public class TopPanel extends JPanel implements ActionListener {
 
-  protected static ImageIcon logo;
-  protected static ImageIcon userIcon;
+  static ImageIcon logo;
+  static ImageIcon userIcon;
 
-  protected static JButton logOff = new JButton("Signout");
+  static JButton logOff = new JButton("Signout");
 
-  protected PrimaryWindow pw;
+  private PrimaryWindow pw;
 
-  protected static FlowLayout flow = new FlowLayout();
+  static FlowLayout flow = new FlowLayout();
  
-  public TopPanel(PrimaryWindow pw) {
+  TopPanel(PrimaryWindow pw) {
     super(flow);
 
     this.pw = pw;
@@ -39,7 +39,7 @@ public class TopPanel extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent ae) {
 
     this.removeAll();
-    this.flow.setAlignment(FlowLayout.CENTER);
+    flow.setAlignment(FlowLayout.CENTER);
     pw.refreshLogin();
 
   }

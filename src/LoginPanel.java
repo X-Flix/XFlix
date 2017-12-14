@@ -8,9 +8,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.io.*;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -19,21 +16,21 @@ import javax.swing.text.StyledDocument;
 
 public class LoginPanel extends JPanel implements ActionListener {
 
-  protected PrimaryWindow pw;
-  protected final JLabel userLabel; // Label indicating username
-  protected final JLabel passLabel; // Label indicating password
-  protected final JTextField userField; // Text field to enter username
-  protected final JPasswordField passField; // Text field to enter password
-  protected final GridLayout loginLayout; // Layout for this panel
-  protected JButton userLogin; // Button user clicks after entering
+  private PrimaryWindow pw;
+  private final JLabel userLabel; // Label indicating username
+  private final JLabel passLabel; // Label indicating password
+  private final JTextField userField; // Text field to enter username
+  private final JPasswordField passField; // Text field to enter password
+  private final GridLayout loginLayout; // Layout for this panel
+  JButton userLogin; // Button user clicks after entering
   // their credentials to login
-  protected JButton forgotPass; // Button user clicks to reset their
+  JButton forgotPass; // Button user clicks to reset their
   // password if forgotten
 
-  protected String userName;
-  protected String passWord;
+  private String userName;
+  private String passWord;
 
-  public LoginPanel(PrimaryWindow pw) {
+  LoginPanel(PrimaryWindow pw) {
     super();
 
     this.pw = pw;
@@ -121,7 +118,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.removeAll(); // Removes all elements of the panel container
         
         pw.topPan.removeAll();
-        pw.topPan.logo = new ImageIcon("IconPics/xflix_logo_small.png");
+        TopPanel.logo = new ImageIcon("IconPics/xflix_logo_small.png");
 
         // Sets up the contents within the program window based upon
         // whether the user is a customer or system admin
@@ -131,19 +128,19 @@ public class LoginPanel extends JPanel implements ActionListener {
           pw.adminUser = true;
 
           // Uses different colored icon for admin users
-          pw.topPan.userIcon = new ImageIcon("IconPics/admin_icon_small.png");
+          TopPanel.userIcon = new ImageIcon("IconPics/admin_icon_small.png");
         } else {
 
           // Sets boolean flag to indicate regular user logged in
           pw.regUser = true;
 
           // Uses different colored icon for regular users
-          pw.topPan.userIcon = new ImageIcon("IconPics/user_icon_small.png");
+          TopPanel.userIcon = new ImageIcon("IconPics/user_icon_small.png");
         }
 
-        pw.topPan.flow.setAlignment(FlowLayout.RIGHT);
-        pw.topPan.add(new JLabel(pw.topPan.logo));        
-        pw.topPan.add(new JLabel(pw.topPan.userIcon));
+        TopPanel.flow.setAlignment(FlowLayout.RIGHT);
+        pw.topPan.add(new JLabel(TopPanel.logo));
+        pw.topPan.add(new JLabel(TopPanel.userIcon));
         
         String welcomeMessage = "Welcome back,\n" + pw.currentUserName + "!";
         JTextPane welcomeBox = new JTextPane();
@@ -157,7 +154,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
         
         pw.topPan.add(welcomeBox);
-        pw.topPan.add(pw.topPan.logOff);
+        pw.topPan.add(TopPanel.logOff);
         pw.remove(pw.loginHolder);
         pw.main = new MainBody(pw);
         pw.add(pw.main, BorderLayout.CENTER);
@@ -176,9 +173,8 @@ public class LoginPanel extends JPanel implements ActionListener {
     if (ae.getSource() == forgotPass) {
 
       int dialogClick = 0;
-      String resetEmail = null;
 
-      resetEmail = JOptionPane
+      String resetEmail = JOptionPane
           .showInputDialog("Please enter your email address on file.");
       if (pw.userAndPass.containsKey(resetEmail)) {
         JOptionPane.showMessageDialog(null,

@@ -7,44 +7,32 @@
  */
 public class UserAccount {
 
-  public String emailAddr = null;
-  public String password;
+  String emailAddr;
+  String password;
 
-  public String firstName = null;
-  public String lastName = null;
-  public String streetAddr = null;
-  public String city = null;
-  public String state = null;
-  public String zipCode = null;
+  String firstName;
+  String lastName;
+  String streetAddr;
+  String city;
+  String state;
+  String zipCode;
 
-  public String paymentType = null;
-  public String accountNumber = null;
-  public String cardType = null;
-  public String cardExpireDate = null;
+  String paymentType;
+  String accountNumber;
+  String cardType;
+  String cardExpireDate;
 
   // Empty constructor
   public UserAccount() {
-    emailAddr = null;
-    firstName = null;
-    lastName = null;
-    streetAddr = null;
-    city = null;
-    state = null;
-    zipCode = null;
-
-    paymentType = null;
-    accountNumber = null;
-    cardType = null;
-    cardExpireDate = null;
     
     System.out.println("hello from empty USER constructor");
   }
 
   // Constructor for minimum amount of info required from a user or admin when
   // creating a new account using the application
-  public UserAccount(String emailAddr, String password, String firstName,
-      String lastName, String streetAddr, String city, String state,
-      String zipCode/*, String paymentType, String accountNumber, String cardType,
+  UserAccount(String emailAddr, String password, String firstName,
+              String lastName, String streetAddr, String city, String state,
+              String zipCode/*, String paymentType, String accountNumber, String cardType,
       String cardExpireDat*/) {
     
     this.emailAddr = emailAddr;
