@@ -31,8 +31,8 @@ public class UserAccount {
   // Constructor for minimum amount of info required from a user or admin when
   // creating a new account using the application
   UserAccount(String emailAddr, String password, String firstName,
-              String lastName, String streetAddr, String city, String state,
-              String zipCode/*, String paymentType, String accountNumber, String cardType,
+      String lastName, String streetAddr, String city, String state,
+      String zipCode/*, String paymentType, String accountNumber, String cardType,
       String cardExpireDat*/) {
     
     this.emailAddr = emailAddr;
