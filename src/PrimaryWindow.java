@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
-import java.util.function.Function;
 
 public class PrimaryWindow extends JFrame implements ActionListener {
 
@@ -418,7 +417,12 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 		}
 	}
 
-	void writeToFile(String dest, Map srcMap, Map allMap, Function makeMap) {
+  /**
+   * writes the contents of a TreeMap to the specified text file
+   * @param destFile  String  path to the file to write to
+   * @param srcMap  TreeMap Data to write to the file
+   */
+	void writeToFile(String destFile, Map srcMap) {
 		// Writes the current content of the HashMap containing the movies to
 		// the
 		// master text file, overwriting the original contents. It then is
@@ -426,7 +430,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 		// clear the HashMap and recreate it so that system admins can instantly
 		// see
 		// the results of any changes they make.
-		try (BufferedWriter data = new BufferedWriter(new FileWriter(dest), 1024)) {
+		try (BufferedWriter data = new BufferedWriter(new FileWriter(destFile), 1024)) {
 			srcMap.keySet().forEach(k -> {
 				try {
 					data.append(srcMap.get(k).toString());
@@ -435,15 +439,10 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 				}
 			});
 			data.flush(); // write the rest of the buffer to the file
+      data.close();
 		} catch (IOException e) { // catch all the errors here
 			System.err.println("Error opening new movies file.");
 		}
-
-		// Clears movies HashMap since the data is no longer current
-		allMap.clear();
-
-		// Rewrites the HasMap based on the newest, updated file
-		// makeMap.apply();
 	}
 
 	// Writes the current content of the HashMap containing the movies to the
@@ -451,22 +450,26 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 	// to
 	// clear the HashMap and recreate it so that system admins can instantly see
 	// the results of any changes they make.
-	void writeMoviesToFile() {
-		try (BufferedWriter data = new BufferedWriter(new FileWriter(allMovFile), 1024)) {
-			newReleases.keySet().forEach(k -> {
-				try {
-					data.append(newReleases.get(k).toString());
-				} catch (IOException e) {
-					System.err.println("Error opening new movies file.");
-				}
-			});
-			data.flush(); // write the rest of the buffer to the file
-		} catch (IOException e) { // catch all the errors here
-			System.err.println("Error opening new movies file.");
-		}
+	void writeAllMoviesToFile() {
+    writeToFile(allMovFile, allMovies);
 
 		// Clears movies HashMap since the data is no longer current
 		allMovies.clear();
+
+		// Rewrites the HasMap based on the newest, updated file
+		makeAllMoviesMap();
+	}
+
+	// Writes the current content of the HashMap containing the movies to the
+	// master text file, overwriting the original contents. It then is supposed
+	// to
+	// clear the HashMap and recreate it so that system admins can instantly see
+	// the results of any changes they make.
+	void writeNewMoviesToFile() {
+    writeToFile(newMovFile, newReleases);
+
+		// Clears movies HashMap since the data is no longer current
+		newReleases.clear();
 
 		// Rewrites the HasMap based on the newest, updated file
 		makeNewMoviesMap();
@@ -478,18 +481,7 @@ public class PrimaryWindow extends JFrame implements ActionListener {
 	// clear the HashMap and recreate it so that system admins can instantly see
 	// the results of any changes they make.
 	void writeUsersToFile() {
-		try (BufferedWriter data = new BufferedWriter(new FileWriter(userAcctsFile), 1024)) {
-			userAccounts.keySet().forEach(k -> {
-				try {
-					data.append(userAccounts.get(k).toString());
-				} catch (IOException e) {
-					System.err.println("Error opening new movies file.");
-				}
-			});
-			data.flush(); // write the rest of the buffer to the file
-		} catch (IOException e) { // catch all the errors here
-			System.err.println("Error opening new movies file.");
-		}
+    writeToFile(userAcctsFile, userAccounts);
 
 		// Clears movies HashMap since the data is no longer current
 		userAccounts.clear();

@@ -577,7 +577,8 @@ public class MainBody extends JTabbedPane implements ActionListener {
           picFileName.getText(), synopsis.getText()));
       hm.entrySet().forEach(System.err::println);
       // Invokes method that updates HashMap and master text file
-      pw.writeMoviesToFile();
+      pw.writeNewMoviesToFile();
+      pw.writeAllMoviesToFile();
 
       JOptionPane.showMessageDialog(null,
           "The movie record has been created/updated successfully.",
