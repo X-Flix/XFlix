@@ -18,9 +18,11 @@ public class newUserPanel extends JPanel implements ActionListener {
 	private final JLabel userFirstNameLabel; // Label indicating user first name
 	private final JLabel userLastNameLabel; // Label indicating user last name
 	private final JLabel userEmailLabel; // Label indicating user email
+	private final JLabel passwordLabel; // Label to set password
 	private final JLabel userPaymentLabel; // Label indicating user payment
 											// method
 	private final JLabel userCardLabel; // Label indicating user card number
+	private final JLabel cardExpireLabel; // Label indicating card expire date
 	private final JLabel userStreetLabel; // Label indicating user street
 	private final JLabel userCityLabel; // Label indicating user city
 	private final JLabel userStateLabel; // Label indicating user state
@@ -30,9 +32,11 @@ public class newUserPanel extends JPanel implements ActionListener {
 													// name
 	private final JTextField userLastNameField; // Text field to enter last name
 	private final JTextField userEmailField; // Text field to enter email
+	private final JTextField passwordField; // Text field to set password
 	private final JTextField userPaymentField; // Text field to enter payment
 												// method
 	private final JTextField userCardField; // Text field to entercard number
+	private final JTextField cardExpireField; // Text field for card expire date
 	private final JTextField userStreetField; // Text field to enter street
 	private final JTextField userCityField; // Text field to enter city
 	private final JTextField userStateField; // Text field to enter state
@@ -47,7 +51,7 @@ public class newUserPanel extends JPanel implements ActionListener {
 		// Sets layout for the panel, used to position items later
 		setPreferredSize(new Dimension(400, 300));
 		setBackground(pw.X_BACKGROUND_COLOR);
-		setLayout(new GridLayout(10, 2, 5, 5));
+		setLayout(new GridLayout(12, 2, 5, 5));
 		
 		setBorder(BorderFactory.createTitledBorder(null, "SIGN UP", TitledBorder.CENTER,
 				TitledBorder.TOP, new Font("arial", Font.BOLD, 12), Color.white));
@@ -80,6 +84,15 @@ public class newUserPanel extends JPanel implements ActionListener {
 		userEmailField.setToolTipText("Enter your email");
 		add(userEmailField);
 		
+		// Set Password
+		passwordLabel = new JLabel("Set Password", SwingConstants.LEFT);
+		passwordLabel.setForeground(Color.white);
+		passwordLabel.setToolTipText("Set your account password.");
+		add(passwordLabel);
+		passwordField = new JPasswordField(50);
+		passwordField.setToolTipText("Set password");
+		add(passwordField);
+		
 		// Payment method
 		userPaymentLabel = new JLabel("Payment method", SwingConstants.LEFT);
 		userPaymentLabel.setForeground(Color.white);
@@ -92,11 +105,20 @@ public class newUserPanel extends JPanel implements ActionListener {
 		// Card number
 		userCardLabel = new JLabel("Card number", SwingConstants.LEFT);
 		userCardLabel.setForeground(Color.white);
-		userCardLabel.setToolTipText("ENter card number.");
+		userCardLabel.setToolTipText("Enter card number.");
 		add(userCardLabel);
 		userCardField = new JTextField(50);
 		userCardField.setToolTipText("Card number");
 		add(userCardField);
+		
+		// Card expire date
+		cardExpireLabel = new JLabel("Expire date", SwingConstants.LEFT);
+		cardExpireLabel.setForeground(Color.white);
+		cardExpireLabel.setToolTipText("Enter card expire date.");
+		add(cardExpireLabel);
+		cardExpireField = new JTextField(50);
+		cardExpireField.setToolTipText("Card expire date");
+		add(cardExpireField);
 		
 		// Street
 		userStreetLabel = new JLabel("Street", SwingConstants.LEFT);
@@ -159,5 +181,5 @@ public class newUserPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
     // required stub
-  }
+			}
 }

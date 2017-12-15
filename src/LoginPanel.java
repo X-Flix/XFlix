@@ -139,6 +139,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 					// Uses different colored icon for admin users
 					TopPanel.userIcon = new ImageIcon("IconPics/admin_icon_small.png");
+					
 				} else {
 
 					// Sets boolean flag to indicate regular user logged in
@@ -151,11 +152,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 				TopPanel.flow.setAlignment(FlowLayout.RIGHT);
 				pw.topPan.add(new JLabel(TopPanel.logo));
 				pw.topPan.add(new JLabel(TopPanel.userIcon));
-        welcomeBox = new JTextPane();
+				welcomeBox = new JTextPane();
+				welcomeBox.setForeground(Color.white);
+				welcomeBox.setBackground(pw.X_BACKGROUND_COLOR);
 				welcomeBox.setText("Welcome back,\n" + pw.currentUserName + "!");
 				welcomeBox.setEditable(false);
 				welcomeBox.setFont(userLabel.getFont());
-				welcomeBox.setBackground(userLabel.getBackground());
 				StyledDocument doc = welcomeBox.getStyledDocument();
 				SimpleAttributeSet center = new SimpleAttributeSet();
 				StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);

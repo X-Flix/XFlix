@@ -113,7 +113,6 @@ public class MainBody extends JTabbedPane implements ActionListener {
       Movie value = hm.get(key);
       JPanel rowHolder = new JPanel();
       rowHolder.setLayout(new BoxLayout(rowHolder, BoxLayout.X_AXIS));
-
       JLabel picHolder;
       JPanel movieInfo = new JPanel();
       movieInfo.setLayout(new BoxLayout(movieInfo, BoxLayout.Y_AXIS));
@@ -429,11 +428,6 @@ public class MainBody extends JTabbedPane implements ActionListener {
     JTextField paymentMethod = new JTextField(
         hm.get(pw.currentUserID).paymentType, 40);
     acctInfoHolder.add(paymentMethod);
-    JLabel userCardType = new JLabel("Card type:");
-    acctInfoHolder.add(userCardType);
-    JTextField cardTypeUser = new JTextField(hm.get(pw.currentUserID).cardType,
-        40);
-    acctInfoHolder.add(cardTypeUser);
     JLabel userCard = new JLabel("Card number:");
     acctInfoHolder.add(userCard);
     JTextField cardNumber = new JTextField(
@@ -460,7 +454,6 @@ public class MainBody extends JTabbedPane implements ActionListener {
         hm.get(pw.currentUserID).state = userStateAddr.getText();
         hm.get(pw.currentUserID).zipCode = userZipCode.getText();
         hm.get(pw.currentUserID).paymentType = paymentMethod.getText();
-        hm.get(pw.currentUserID).cardType = cardTypeUser.getText();
         hm.get(pw.currentUserID).accountNumber = cardNumber.getText();
         hm.get(pw.currentUserID).cardExpireDate = expireDate.getText();
 
@@ -490,7 +483,6 @@ public class MainBody extends JTabbedPane implements ActionListener {
         userStateAddr.setText(null);
         userZipCode.setText(null);
         paymentMethod.setText(null);
-        cardTypeUser.setText(null);
         cardNumber.setText(null);
         expireDate.setText(null);
 
