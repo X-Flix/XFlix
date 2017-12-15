@@ -13,12 +13,14 @@ public class TopPanel extends JPanel implements ActionListener {
   private PrimaryWindow pw;
 
   static FlowLayout flow = new FlowLayout();
- 
+  
   TopPanel(PrimaryWindow pw) {
     super(flow);
 
     this.pw = pw;
-
+    
+    setBackground(pw.X_BACKGROUND_COLOR);
+    
     logo = new ImageIcon("IconPics/xflix_logo.png");
     this.add(new JLabel(logo));
 

@@ -38,7 +38,6 @@ public class MainBody extends JTabbedPane implements ActionListener {
   MainBody(PrimaryWindow pw) {
 
     super();
-
     this.pw = pw;
 
     // Constructor displays different tabs inside the main window based upon
